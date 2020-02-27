@@ -1,1 +1,3 @@
 # Stargazer
+
+Game for capstone
