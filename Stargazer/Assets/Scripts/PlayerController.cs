@@ -16,7 +16,7 @@ public class PlayerController : Entity {
 
 	void Start () {
 		playerView.parent = transform;
-		playerView.position = transform.position;
+		playerView.position = transform.position + Vector3.up * .5f;
 		playerView.eulerAngles = this.direction = transform.eulerAngles;
 		playerBody = GetComponent<Rigidbody>();
 		playerCollider = GetComponent<Collider>();
@@ -32,6 +32,7 @@ public class PlayerController : Entity {
 
 	void FixedUpdate() {
 		playerBody.MovePosition(playerBody.position + this.velocity * Time.deltaTime);
+		position = playerView.transform.position;
 	}
 
 	void MoveControl() {
@@ -49,7 +50,6 @@ public class PlayerController : Entity {
 
 	void JumpControl() {
 		bool isGrounded = Physics.CheckSphere(transform.position - playerCollider.bounds.extents.y * Vector3.up, 0.2f, groundLayer, QueryTriggerInteraction.Ignore);
-
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             playerBody.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
@@ -75,7 +75,7 @@ public class PlayerController : Entity {
 			}
 		}
 
-		if (Input.GetMouseButtonDown(0) && this.equipment != null) {
+		if (Input.GetMouseButton(0) && this.equipment != null) {
 			this.equipment.OnActivate();
 		}
 
@@ -91,7 +91,7 @@ public class PlayerController : Entity {
 		float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
 		float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-		yRotation = Mathf.Clamp(yRotation - mouseY, -90f, 90f);
+		yRotation = Mathf.Clamp(yRotation - mouseY, -90f, 60f);
 
 		playerView.localRotation = Quaternion.Euler(yRotation, 0f, 0f);
 		transform.Rotate(Vector3.up * mouseX);	

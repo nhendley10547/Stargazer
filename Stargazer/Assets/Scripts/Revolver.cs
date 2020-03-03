@@ -4,8 +4,8 @@ public class Revolver : Equipment {
 
 	public GameObject bulletPrefab;
 	private float currentReloadTime = 0;
-    private const float MAX_RELOAD_TIME = 1.6f;
-    private const float BULLET_SPEED = 4.0f;
+    private const float MAX_RELOAD_TIME = .6f;
+    private const float BULLET_SPEED = 12.0f;
     private const float BULLET_RANGE = 100.0f;
 
     public override void OnActivate() {
@@ -15,7 +15,7 @@ public class Revolver : Equipment {
 
             GameObject bulletClone = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
             bulletClone.GetComponent<Bullet>().Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
-        
+
             this.currentReloadTime = MAX_RELOAD_TIME;
         }
     }
@@ -26,19 +26,21 @@ public class Revolver : Equipment {
         Rigidbody body = GetComponent<Rigidbody>();
         body.isKinematic = true;
         body.useGravity = false;
+        body.detectCollisions = false;
 
-        this.transform.position = Calculate.DirectionBasedPosition(this.owner.transform.position, this.owner.direction + Vector3.right * 20, 1.0f);
+        this.transform.position = Calculate.DirectionBasedPosition(this.owner.position, this.owner.direction + Vector3.right * 20, 1.0f);
 
         this.transform.eulerAngles = this.owner.direction;
     }
 
     public override void OnDrop() {
         Vector3 upDirection = new Vector3(0, this.owner.direction.y, 0);
-        this.transform.position = Calculate.DirectionBasedPosition(this.owner.transform.position, upDirection, 1.0f);
+        this.transform.position = Calculate.DirectionBasedPosition(this.owner.position, upDirection, 1.0f);
 
         Rigidbody body = GetComponent<Rigidbody>();
         body.isKinematic = false;
         body.useGravity = true;
+        body.detectCollisions = true;
         
         base.OnDrop();
     }
