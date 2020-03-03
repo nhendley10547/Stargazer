@@ -737,7 +737,8 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 65684990938757474, guid: 3d775168abb5cca4491c8f71ef2db1bc, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 3d775168abb5cca4491c8f71ef2db1bc, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &854931399 stripped
@@ -933,6 +934,23 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3d775168abb5cca4491c8f71ef2db1bc, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1163120304 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1844248616031782, guid: 3d775168abb5cca4491c8f71ef2db1bc,
+    type: 2}
+  m_PrefabInternal: {fileID: 804349941}
+--- !u!65 &1163120306
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1163120304}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0, z: -0.0000076293945}
 --- !u!1001 &1194662811
 Prefab:
   m_ObjectHideFlags: 0
@@ -1189,6 +1207,23 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6c0db5a6b9db0c2439cb5acfd18eaac6, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1943360275 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1173670598647918, guid: 3d775168abb5cca4491c8f71ef2db1bc,
+    type: 2}
+  m_PrefabInternal: {fileID: 804349941}
+--- !u!65 &1943360277
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1943360275}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.9999999, z: 0.99999994}
+  m_Center: {x: 0, y: -0.0000009536743, z: 0.0000019073486}
 --- !u!1001 &2030878619
 Prefab:
   m_ObjectHideFlags: 0
@@ -1414,7 +1449,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2109532854}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 679.5, y: 454.5, z: 0}
+  m_LocalPosition: {x: 338, y: 191.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1805612870}

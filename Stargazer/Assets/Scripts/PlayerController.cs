@@ -5,8 +5,6 @@ public class PlayerController : Entity {
 	public Transform playerView;
 	private Collider playerCollider;
 	private Rigidbody playerBody;
-	public LayerMask groundLayer;
-
 	private Equipment equipment;
 
 	private float speed = 5.0f;
@@ -14,7 +12,8 @@ public class PlayerController : Entity {
 	private float mouseSensitivity = 200.0f;
 	private float yRotation = 0.0f;
 
-	void Start () {
+	new void Start() {
+		base.Start();
 		playerView.parent = transform;
 		playerView.position = transform.position + Vector3.up * .5f;
 		playerView.eulerAngles = this.direction = transform.eulerAngles;
@@ -49,7 +48,7 @@ public class PlayerController : Entity {
 	}
 
 	void JumpControl() {
-		bool isGrounded = Physics.CheckSphere(transform.position - playerCollider.bounds.extents.y * Vector3.up, 0.2f, groundLayer, QueryTriggerInteraction.Ignore);
+		bool isGrounded = Physics.CheckSphere(transform.position - playerCollider.bounds.extents.y * Vector3.up, 0.2f, this.groundLayer, QueryTriggerInteraction.Ignore);
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             playerBody.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
@@ -61,15 +60,16 @@ public class PlayerController : Entity {
 		RaycastHit hitInfo;
 
 		if (Input.GetMouseButtonDown(1)) { 
-			if (Physics.Raycast(ray, out hitInfo, 5)) {
-				if (hitInfo.collider.tag == "Equipment" ) {
+			if (Physics.Raycast(ray, out hitInfo, 5, ~this.itemLayer)) {
+				Debug.Log("Parent: " + hitInfo.transform.tag);
+				if (hitInfo.transform.tag == "Equipment" ) {
 
 					if (this.equipment != null) {
 						this.equipment.OnDrop();
 						this.equipment = null;
 					}
 
-					this.equipment = hitInfo.collider.gameObject.GetComponent<Equipment>();;
+					this.equipment = hitInfo.transform.gameObject.GetComponent<Equipment>();;
 					this.equipment.OnEquip(this, playerView);
 				}
 			}
