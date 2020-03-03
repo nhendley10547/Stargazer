@@ -14,6 +14,10 @@ public class Shotgun : Equipment {
             Vector3 position = this.transform.GetChild(0).position + bulletDirection * .2f;
 
             GameObject bulletClone = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
+            GameObject bulletClone1 = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
+            GameObject bulletClone2 = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
+            GameObject bulletClone3 = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
+            GameObject bulletClone4 = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
             bulletClone.GetComponent<Bullet>().Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
 
             this.currentReloadTime = MAX_RELOAD_TIME;
