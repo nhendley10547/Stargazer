@@ -14,11 +14,16 @@ public class Shotgun : Equipment {
             Vector3 position = this.transform.GetChild(0).position + bulletDirection * .2f;
 
             GameObject bulletClone = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
-            GameObject bulletClone1 = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
-            GameObject bulletClone2 = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
-            GameObject bulletClone3 = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
-            GameObject bulletClone4 = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
+            //GameObject bulletClone1 = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
+            //GameObject bulletClone2 = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
+            //GameObject bulletClone3 = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
+            //GameObject bulletClone4 = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
+            bulletClone.transform.localScale = new Vector3(.05f, .05f, .05f);
             bulletClone.GetComponent<Bullet>().Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
+            //bulletClone1.GetComponent<Bullet>().Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
+            //bulletClone2.GetComponent<Bullet>().Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
+            //bulletClone3.GetComponent<Bullet>().Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
+            //bulletClone4.GetComponent<Bullet>().Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
 
             this.currentReloadTime = MAX_RELOAD_TIME;
         }
