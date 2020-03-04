@@ -50,6 +50,7 @@ public class PlayerController : Entity {
 
 	void JumpControl() {
 		bool isGrounded = Physics.CheckSphere(transform.position - playerCollider.bounds.extents.y * Vector3.up, 0.2f, groundLayer, QueryTriggerInteraction.Ignore);
+        print(transform.position - playerCollider.bounds.extents.y * Vector3.up);
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             playerBody.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
