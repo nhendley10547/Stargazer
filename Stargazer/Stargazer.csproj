@@ -225,11 +225,13 @@
     <Compile Include="Assets\Scripts\Entity.cs" />
     <Compile Include="Assets\Scripts\Equipment.cs" />
     <Compile Include="Assets\Scripts\Health.cs" />
+    <Compile Include="Assets\Scripts\LasBolt.cs" />
     <Compile Include="Assets\Scripts\MonsterAI.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Revolver.cs" />
     <Compile Include="Assets\Scripts\Rifle.cs" />
     <Compile Include="Assets\Scripts\Shotgun.cs" />
+    <Compile Include="Assets\Scripts\SMG.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Materials\Materials.txt" />

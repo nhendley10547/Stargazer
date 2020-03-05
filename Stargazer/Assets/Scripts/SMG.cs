@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Rifle : Equipment
+public class SMG : Equipment
 {
 
     public GameObject bulletPrefab;
@@ -8,12 +8,16 @@ public class Rifle : Equipment
     private const float MAX_RELOAD_TIME = .1f;
     private const float BULLET_SPEED = 20.0f;
     private const float BULLET_RANGE = 100.0f;
+    
 
     public override void OnActivate()
     {
+        int RND = Random.Range(-5, 5);
+        int RND2 = Random.Range(-5, 5);
+
         if (this.currentReloadTime <= 0)
         {
-            Vector3 bulletDirection = Calculate.HeadingBasedDirection(this.transform.position, this.transform.eulerAngles);
+            Vector3 bulletDirection = Calculate.HeadingBasedDirection(this.transform.position, this.transform.eulerAngles + new Vector3(RND, RND2, 0));
             Vector3 position = this.transform.GetChild(0).position + bulletDirection * .2f;
 
             GameObject bulletClone = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
