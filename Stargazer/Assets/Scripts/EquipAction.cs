@@ -10,7 +10,7 @@ public class EquipAction : MonoBehaviour {
 
 	private Entity ownerEntity;
 
-	void Start() {
+	void Awake() {
 		ownerEntity = GetComponent<Entity>();
 	}
 
@@ -25,6 +25,7 @@ public class EquipAction : MonoBehaviour {
         body.detectCollisions = false;
 
         item.transform.position = Calculate.DirectionBasedPosition(this.ownerEntity.position, this.ownerEntity.direction + Vector3.right * this.holdingAngle, this.holdingDistance);
+        print(item.transform.position);
         item.transform.eulerAngles = this.ownerEntity.direction;
         item.transform.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 	}
