@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4541092123938772}
   - component: {fileID: 33056047401386710}
   - component: {fileID: 23737135142786292}
+  - component: {fileID: 65441755981047798}
   m_Layer: 0
   m_Name: Barrel
   m_TagString: Untagged
@@ -36,10 +37,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4073057290805060}
-  - component: {fileID: 65684990938757474}
   - component: {fileID: 54334877441234058}
   - component: {fileID: 114939126833345898}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Revolver
   m_TagString: Equipment
   m_Icon: {fileID: 0}
@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 4938109650866140}
   - component: {fileID: 33411688731223900}
   - component: {fileID: 23103309095527458}
+  - component: {fileID: 65613037565855076}
   m_Layer: 0
   m_Name: Grip
   m_TagString: Untagged
@@ -87,9 +88,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1522153295813046}
-  m_LocalRotation: {x: -0, y: -0, z: 0.00033554854, w: 0.99999994}
-  m_LocalPosition: {x: 12.74, y: 1.57, z: -10.245}
-  m_LocalScale: {x: 0.10231452, y: 0.2995808, z: 0.26166067}
+  m_LocalRotation: {x: 0.22294715, y: -0.22321396, z: -0.67054087, w: 0.67145}
+  m_LocalPosition: {x: 12.683496, y: 0.05731511, z: -10.625069}
+  m_LocalScale: {x: 0.10231454, y: 0.2995812, z: 0.2616609}
   m_Children:
   - {fileID: 4866109854673438}
   - {fileID: 4541092123938772}
@@ -274,18 +275,30 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65684990938757474
+--- !u!65 &65441755981047798
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1522153295813046}
+  m_GameObject: {fileID: 1173670598647918}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.4, z: 2}
-  m_Center: {x: 0, y: 0.2, z: -0.2}
+  m_Size: {x: 1, y: 0.9999999, z: 0.99999994}
+  m_Center: {x: 0, y: -0.0000009536743, z: 0.0000019073486}
+--- !u!65 &65613037565855076
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1844248616031782}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0, z: -0.0000076293945}
 --- !u!65 &65854160013689240
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -309,5 +322,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e88ea0e3f9b00c343a43aeb5542eaa1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ownerEntity: {fileID: 0}
   bulletPrefab: {fileID: 1200003978224132, guid: 0c4c818132bc73040ac5d0a7c0469821,
     type: 2}
