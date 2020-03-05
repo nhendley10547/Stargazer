@@ -20,31 +20,6 @@ public class Revolver : Equipment {
         }
     }
 
-    public override void OnEquip(Entity owner, Transform viewTransform) {
-        base.OnEquip(owner, viewTransform);
-
-        Rigidbody body = GetComponent<Rigidbody>();
-        body.isKinematic = true;
-        body.useGravity = false;
-        body.detectCollisions = false;
-
-        this.transform.position = Calculate.DirectionBasedPosition(this.owner.position, this.owner.direction + Vector3.right * 20, 1.0f);
-
-        this.transform.eulerAngles = this.owner.direction;
-    }
-
-    public override void OnDrop() {
-        Vector3 upDirection = new Vector3(0, this.owner.direction.y, 0);
-        this.transform.position = Calculate.DirectionBasedPosition(this.owner.position, upDirection, 1.0f);
-
-        Rigidbody body = GetComponent<Rigidbody>();
-        body.isKinematic = false;
-        body.useGravity = true;
-        body.detectCollisions = true;
-        
-        base.OnDrop();
-    }
-
     void Update() {
 		if (!(this.currentReloadTime <= 0)) {
 			this.currentReloadTime -= Time.deltaTime;
