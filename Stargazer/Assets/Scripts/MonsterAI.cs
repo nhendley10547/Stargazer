@@ -8,5 +8,8 @@ public class MonsterAI : MonoBehaviour {
 
 	void Start () {
 		GetComponent<Health>().SetHealth(MAX_HEALTH);
+		GameObject revolverPrefab = (GameObject)Resources.Load("Prefabs/Revolver", typeof(GameObject));
+		Equipment revolver = Instantiate(revolverPrefab, Vector3.zero, Quaternion.Euler(0,0,0)).GetComponent<Equipment>();
+		GetComponent<EquipAction>().OnEquip(revolver, this.transform);
 	}
 }
