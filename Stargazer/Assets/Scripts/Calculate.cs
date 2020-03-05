@@ -16,4 +16,12 @@ public static class Calculate {
             Mathf.Cos(heading.y) * Mathf.Cos(heading.x)
         );
     }
+
+    public static Vector3 FacingPositionAngle(Vector3 fromPosition, Vector3 targetPosition) {
+        return new Vector3(
+            Mathf.Atan((targetPosition.z - fromPosition.z) / (targetPosition.y - fromPosition.y)),
+            Mathf.Atan((targetPosition.x - fromPosition.x) / (targetPosition.z - fromPosition.z)),
+            0
+        );
+    }
 }
