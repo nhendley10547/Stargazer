@@ -10,6 +10,8 @@ public class Bullet : MonoBehaviour {
 	private Rigidbody bulletBody;
 	private Vector3 originalPosition;
 
+	public int damageValue = 5;
+
 	void Start() {
 		bulletBody = GetComponent<Rigidbody>();
 	}
@@ -33,7 +35,7 @@ public class Bullet : MonoBehaviour {
 		if (other.tag == "Entity" || other.tag == "Player") {
 			Health health = other.GetComponent<Health>();
 			if (health != null) {
-				health.ChangeHealthBy(5);
+				health.ChangeHealthBy(damageValue);
 			}
 		}
 		Destroy(this.gameObject);

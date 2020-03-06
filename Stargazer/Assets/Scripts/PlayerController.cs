@@ -2,7 +2,7 @@
 
 public class PlayerController : Entity {
 
-	public Transform playerView;
+	public Camera playerView;
 	private Collider playerCollider;
 	private Rigidbody playerBody;
 
@@ -14,9 +14,9 @@ public class PlayerController : Entity {
 	private EquipAction equipAction;
 
 	void Start() {
-		playerView.parent = transform;
-		playerView.position = transform.position + Vector3.up * .5f;
-		playerView.eulerAngles = this.direction = transform.eulerAngles;
+		playerView.enabled = true;
+		playerView.transform.position = transform.position + Vector3.up * .5f;
+		playerView.transform.eulerAngles = this.direction = transform.eulerAngles;
 		playerBody = GetComponent<Rigidbody>();
 		playerCollider = GetComponent<Collider>();
 		equipAction = GetComponent<EquipAction>();
@@ -61,7 +61,7 @@ public class PlayerController : Entity {
 	void InteractionControl() {
 		
 		if (Input.GetKeyDown(KeyCode.E)) { 
-			Ray ray = new Ray(playerView.position, playerView.forward);
+			Ray ray = new Ray(playerView.transform.position, playerView.transform.forward);
 			RaycastHit hitInfo;
 
 			if (Physics.Raycast(ray, out hitInfo, 5, LayerMask.NameToLayer("Item"))) {
@@ -71,7 +71,7 @@ public class PlayerController : Entity {
 						this.equipAction.OnDrop(this.equipment);
 					}
 
-					this.equipAction.OnEquip(item, playerView);
+					this.equipAction.OnEquip(item, playerView.transform);
 				}
 			} else if (this.equipment != null) {
 				this.equipAction.OnDrop(this.equipment);
@@ -89,9 +89,14 @@ public class PlayerController : Entity {
 
 		yRotation = Mathf.Clamp(yRotation - mouseY, -90f, 60f);
 
-		playerView.localRotation = Quaternion.Euler(yRotation, 0f, 0f);
+		playerView.transform.localRotation = Quaternion.Euler(yRotation, 0f, 0f);
 		transform.Rotate(Vector3.up * mouseX);	
 
-		this.direction = playerView.eulerAngles;
+		this.direction = playerView.transform.eulerAngles;
+	}
+
+	public override void Death() {
+		playerView.transform.parent = null;
+		Destroy(this.gameObject);
 	}
 }

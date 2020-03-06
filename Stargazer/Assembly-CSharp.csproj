@@ -62,7 +62,6 @@
      <Compile Include="Assets\Scripts\Revolver.cs" />
      <Compile Include="Assets\Scripts\Shotgun.cs" />
      <None Include="Assets\Prefabs\Prefabs.txt" />
-     <None Include="Assets\Scripts\Scripts.txt" />
      <None Include="Assets\Sprites\Sprites.txt" />
      <None Include="Assets\Materials\Materials.txt" />
  <Reference Include="UnityEngine.UI">
