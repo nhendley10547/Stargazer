@@ -21,7 +21,7 @@ public class Health : MonoBehaviour {
 
 	void Update () {
 		if (this.entityHealth <= 0) {
-			Destroy(this.gameObject);
+			this.gameObject.GetComponent<Entity>().Death();
 		}
 	}
 }

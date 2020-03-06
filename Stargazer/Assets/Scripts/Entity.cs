@@ -7,4 +7,8 @@ public class Entity : MonoBehaviour {
     public Equipment equipment;
 	
 	public LayerMask groundLayer; 
+
+    public virtual void Death() {
+        Destroy(this.gameObject);
+    }
 }
