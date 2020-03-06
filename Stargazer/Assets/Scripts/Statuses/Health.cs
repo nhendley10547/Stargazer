@@ -4,11 +4,7 @@ using UnityEngine;
 
 public class Health : MonoBehaviour {
 
-	int entityHealth;
-	
-	void Start() {
-		entityHealth = 10; // Default health value
-	}
+	public int entityHealth = 10;
 
 	public void SetHealth(int health) {
 		this.entityHealth = health;
