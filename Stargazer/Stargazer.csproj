@@ -238,7 +238,6 @@
   <ItemGroup>
     <None Include="Assets\Materials\Materials.txt" />
     <None Include="Assets\Prefabs\Prefabs.txt" />
-    <None Include="Assets\Scripts\Scripts.txt" />
     <None Include="Assets\Sprites\Sprites.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
