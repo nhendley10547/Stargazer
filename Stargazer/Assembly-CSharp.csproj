@@ -51,16 +51,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Scripts\Bullet.cs" />
+     <Compile Include="Assets\Scripts\Actions\EquipAction.cs" />
      <Compile Include="Assets\Scripts\Calculate.cs" />
-     <Compile Include="Assets\Scripts\Entity.cs" />
-     <Compile Include="Assets\Scripts\EquipAction.cs" />
-     <Compile Include="Assets\Scripts\Equipment.cs" />
-     <Compile Include="Assets\Scripts\Health.cs" />
-     <Compile Include="Assets\Scripts\MonsterAI.cs" />
-     <Compile Include="Assets\Scripts\PlayerController.cs" />
-     <Compile Include="Assets\Scripts\Revolver.cs" />
-     <Compile Include="Assets\Scripts\Shotgun.cs" />
+     <Compile Include="Assets\Scripts\Entities\Entity.cs" />
+     <Compile Include="Assets\Scripts\Entities\MonsterAI.cs" />
+     <Compile Include="Assets\Scripts\Entities\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Statuses\Health.cs" />
+     <Compile Include="Assets\Scripts\Weapons\Bullet.cs" />
+     <Compile Include="Assets\Scripts\Weapons\Equipment.cs" />
+     <Compile Include="Assets\Scripts\Weapons\LasBolt.cs" />
+     <Compile Include="Assets\Scripts\Weapons\Revolver.cs" />
+     <Compile Include="Assets\Scripts\Weapons\Rifle.cs" />
+     <Compile Include="Assets\Scripts\Weapons\Shotgun.cs" />
+     <Compile Include="Assets\Scripts\Weapons\SMG.cs" />
+     <Compile Include="Assets\Scripts\Weapons\Sniper.cs" />
      <None Include="Assets\Prefabs\Prefabs.txt" />
      <None Include="Assets\Sprites\Sprites.txt" />
      <None Include="Assets\Materials\Materials.txt" />

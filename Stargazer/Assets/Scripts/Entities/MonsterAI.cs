@@ -5,7 +5,7 @@ using UnityEngine;
 public class MonsterAI : Entity {
 
 	private const int MAX_HEALTH = 10;
-	public GameObject revolverPrefab;
+	public GameObject weaponPrefab;
 	private Transform centerTransform;
 
 	[SerializeField]
@@ -17,8 +17,8 @@ public class MonsterAI : Entity {
 		this.position = this.transform.position;
 
 		GetComponent<Health>().SetHealth(MAX_HEALTH);
-		Equipment revolver = Instantiate(revolverPrefab, Vector3.zero, Quaternion.Euler(0,0,0)).GetComponent<Equipment>();
-		GetComponent<EquipAction>().OnEquip(revolver, this.centerTransform);
+		Equipment weapon = Instantiate(weaponPrefab, Vector3.zero, Quaternion.Euler(0,0,0)).GetComponent<Equipment>();
+		GetComponent<EquipAction>().OnEquip(weapon, this.centerTransform);
 		
 	}
 
@@ -27,10 +27,17 @@ public class MonsterAI : Entity {
 		if (targetRef != null) {
 			Vector3 targetPosition = targetRef.transform.position;
 			//If the distance between this object and the player <= 10 units...
-			if (Vector3.Distance(centerTransform.position, targetPosition) <= 10) {
+			if (Vector3.Distance(centerTransform.position, targetPosition) <= 90) {
 				Quaternion q = Quaternion.LookRotation(targetPosition - centerTransform.position);
 				centerTransform.rotation = Quaternion.Slerp(centerTransform.rotation, q, 5 * Time.deltaTime);
-				this.equipment.OnActivate();
+				Ray ray = new Ray(centerTransform.position, centerTransform.forward);
+				RaycastHit hitInfo;
+
+				if (Physics.Raycast(ray, out hitInfo)) { 
+					if (hitInfo.transform.tag == "Player") {
+						this.equipment.OnActivate();
+					}
+				}
 			}
 		}
 	}

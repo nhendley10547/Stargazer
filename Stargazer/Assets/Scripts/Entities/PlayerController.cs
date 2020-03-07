@@ -97,6 +97,7 @@ public class PlayerController : Entity {
 
 	public override void Death() {
 		playerView.transform.parent = null;
+		print("YOU DIED!");
 		Destroy(this.gameObject);
 	}
 }
