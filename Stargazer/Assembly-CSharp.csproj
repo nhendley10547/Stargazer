@@ -52,6 +52,8 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Actions\EquipAction.cs" />
+     <Compile Include="Assets\Scripts\AI\AStarPathfind\Node.cs" />
+     <Compile Include="Assets\Scripts\AI\AStarPathfind\NodeGrid.cs" />
      <Compile Include="Assets\Scripts\Calculate.cs" />
      <Compile Include="Assets\Scripts\Entities\Entity.cs" />
      <Compile Include="Assets\Scripts\Entities\MonsterAI.cs" />
