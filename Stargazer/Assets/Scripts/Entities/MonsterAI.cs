@@ -24,7 +24,6 @@ public class MonsterAI : Entity {
 
 	void Update() {
 		//Simplify this.
-		print(targetRef);
 		if (targetRef != null) {
 			Vector3 targetPosition = targetRef.transform.position;
 			//If the distance between this object and the player <= 10 units...
@@ -33,7 +32,6 @@ public class MonsterAI : Entity {
 				centerTransform.rotation = Quaternion.Slerp(centerTransform.rotation, q, 5 * Time.deltaTime);
 				Ray ray = new Ray(centerTransform.position, centerTransform.forward);
 				RaycastHit hitInfo;
-				print("Message");
 
 				if (Physics.Raycast(ray, out hitInfo)) { 
 					if (hitInfo.transform.tag == "Player") {
