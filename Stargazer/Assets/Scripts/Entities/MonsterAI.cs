@@ -10,12 +10,18 @@ public class MonsterAI : Entity {
 
 	[SerializeField]
 	private Transform targetRef;
-	float speed = 5f;
-	Vector3[] path;
-	int targetIndex;
+
+	public float speed = 5f;
+	public float turnSpeed = 2;
+	public float turnDst = 3;
+	const float pathUpdateMoveThreshold = .5f;
+	const float minPathUpdateTime = .2f;
+	public float stoppingDst = 10;
+
+	Path path;
 
 	void Start () {
-		PathRequestManager.RequestPath(transform.position, targetRef.position, OnPathFound);
+		StartCoroutine(UpdatePath());
 
 		centerTransform = transform.GetChild(0);
 		this.direction = this.transform.eulerAngles;
@@ -47,42 +53,67 @@ public class MonsterAI : Entity {
 		// }
 	}
 
-	public void OnPathFound(Vector3[] newPath, bool success) {
+	public void OnPathFound(Vector3[] waypoints, bool success) {
 		if (success) {
-			this.path = newPath;
+			this.path = new Path(waypoints, transform.position, turnDst);
 			StopCoroutine("FollowPath");
 			StartCoroutine("FollowPath");
 		}
 	}
+
+	IEnumerator UpdatePath() {
+		
+		if (Time.timeSinceLevelLoad < .3f) {
+			yield return new WaitForSeconds(.3f);
+		}
+
+		PathRequestManager.RequestPath(transform.position, targetRef.position, OnPathFound);
+		float sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
+		Vector3 targetPosOld = targetRef.position;
+
+		while(true) {
+			yield return new WaitForSeconds(minPathUpdateTime);
+			if((targetRef.position - targetPosOld).sqrMagnitude > sqrMoveThreshold) {
+				PathRequestManager.RequestPath(transform.position, targetRef.position, OnPathFound);
+				targetPosOld = targetRef.position;
+			}
+		}
+	}
 	
 	IEnumerator FollowPath() {
-		Vector3 currentWaypoint = path[0];
+		bool followingPath = true;
+		int pathIndex = 0;
+		transform.LookAt(path.lookPoints[0]);
 
-		while (true) {
-			if (transform.position == currentWaypoint) {
-				targetIndex++;
-				if (targetIndex >= path.Length) {
-					yield break;
+		float speedPercent = 1;
+
+		while (followingPath) {
+			Vector2 pos2D = new Vector2(transform.position.x, transform.position.z);
+			while (path.turnBoundaries[pathIndex].HasCrossedLine(pos2D)) {
+				if (pathIndex == path.finishLineIndex) {
+					followingPath = false;
+					break;
+				} else {
+					pathIndex++;
 				}
-				currentWaypoint = path[targetIndex];
 			}
-			currentWaypoint.y = transform.position.y;
-			transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, this.speed * Time.deltaTime);
+
+			if (followingPath) {
+				speedPercent = path.turnBoundaries[path.finishLineIndex].DistanceFromPoint(pos2D) / stoppingDst;
+
+				Quaternion targetRotation = Quaternion.LookRotation(path.lookPoints[pathIndex] - transform.position);
+				transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
+				transform.Translate(Vector3.forward * Time.deltaTime * speed * speedPercent, Space.Self);
+			}
+
+
 			yield return null;
 		}
 	}
 
 	public void OnDrawGizmos() {
 		if (path != null) {
-			for (int i = targetIndex; i < path.Length; i++) {
-				Gizmos.color = Color.black;
-				Gizmos.DrawCube(path[i], Vector3.one);
-				if (i == targetIndex) {
-					Gizmos.DrawLine(transform.position, path[i]);
-				} else {
-					Gizmos.DrawLine(path[i-1], path[i]);
-				}
-			}
+			path.DrawWithGizmos();
 		}
 	}
 }

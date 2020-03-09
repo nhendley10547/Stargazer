@@ -37,17 +37,7 @@ public class NodeGrid : MonoBehaviour {
 					Vector3.forward * (y * this.nodeDiameter + this.nodeRadius);
 				bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
 
-				this.grid[x, y] = new Node(walkable, worldPoint, x, y, 0);
-			}
-		}
-
-		for (int x = 0; x < gridSizeX; x++) {
-			for (int y = 0; y < gridSizeY; y++) {
-				Node node = this.grid[x, y];
-				if (!node.walkable) continue;
-				List<Node> neighbors = GetNeighbors(node);
-				int numberOfWalkable = neighbors.Count;
-				node.weight += (8 - GetNeighbors(node).Count) * 3;
+				this.grid[x, y] = new Node(walkable, worldPoint, x, y, walkable ? 0 : 15);
 			}
 		}
 
@@ -69,8 +59,8 @@ public class NodeGrid : MonoBehaviour {
 			for (int x = 1; x < gridSizeX; x++) {
 				int removeIndex = Mathf.Clamp(x - kernelExtents - 1, 0, gridSizeX);
 				int addIndex = Mathf.Clamp(x + kernelExtents, 0, gridSizeX-1);
+				
 				weightHozPass[x, y] = weightHozPass[x-1, y] - grid[removeIndex, y].weight + grid[addIndex, y].weight;
-
 			}
 		}
 
@@ -80,11 +70,14 @@ public class NodeGrid : MonoBehaviour {
 				weightVerPass[x, 0] += weightHozPass[x, sampleY];
 			}
 
+			int blurredWeight = Mathf.RoundToInt((float) weightVerPass[x, 0] / (kernelSize * kernelSize));
+			grid[x, 0].weight = blurredWeight;
+
 			for (int y = 1; y < gridSizeX; y++) {
 				int removeIndex = Mathf.Clamp(y - kernelExtents - 1, 0, gridSizeX);
 				int addIndex = Mathf.Clamp(y + kernelExtents, 0, gridSizeY-1);
 				weightVerPass[x, y] = weightVerPass[x, y-1] - weightHozPass[x, removeIndex] + weightHozPass[x, addIndex];
-				int blurredWeight = Mathf.RoundToInt((float) weightVerPass[x, y] / (kernelSize * kernelSize));
+			    blurredWeight = Mathf.RoundToInt((float) weightVerPass[x, y] / (kernelSize * kernelSize));
 				grid[x, y].weight = blurredWeight;
 			}
 		}
@@ -124,10 +117,10 @@ public class NodeGrid : MonoBehaviour {
 		
 		if (this.grid != null && displayGizmos) {
 			foreach(Node n in grid) {
-				// Gizmos.color = n.walkable ? Color.white : Color.red;
-				// Gizmos.DrawCube(n.worldPosition, Vector3.one * (this.nodeDiameter - .1f));
-				if (n.walkable)
-					Handles.Label(n.worldPosition, n.weight.ToString());
+				Gizmos.color = n.walkable ? Color.white : Color.red;
+				Gizmos.DrawCube(n.worldPosition, Vector3.one * (this.nodeDiameter - .1f));
+			// 	if (n.walkable)
+			// 		Handles.Label(n.worldPosition, n.weight.ToString());
 			}
 		}
 		

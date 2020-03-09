@@ -280,7 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a8fa820f6a9c8147a1eef3c3e0f6b48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayGizmos: 0
+  displayGizmos: 1
   unwalkableMask:
     serializedVersion: 2
     m_Bits: 1024
@@ -633,7 +633,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4688697556874324, guid: 6c0db5a6b9db0c2439cb5acfd18eaac6, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -14.2
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 4688697556874324, guid: 6c0db5a6b9db0c2439cb5acfd18eaac6, type: 2}
       propertyPath: m_LocalPosition.y
@@ -674,7 +674,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4688697556874324, guid: 6c0db5a6b9db0c2439cb5acfd18eaac6, type: 2}
       propertyPath: m_LocalScale.x
-      value: 3.6019094
+      value: 7.293859
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6c0db5a6b9db0c2439cb5acfd18eaac6, type: 2}
