@@ -37,9 +37,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4820852729033210}
-  - component: {fileID: 65140676481283392}
   - component: {fileID: 54115864198930332}
-  - component: {fileID: 114482877498301758}
+  - component: {fileID: 114114725512828264}
   m_Layer: 0
   m_Name: SMG
   m_TagString: Equipment
@@ -92,6 +91,7 @@ GameObject:
   - component: {fileID: 4484163886458652}
   - component: {fileID: 33806622901217606}
   - component: {fileID: 23887488731548940}
+  - component: {fileID: 65044701543525590}
   m_Layer: 0
   m_Name: Grip
   m_TagString: Untagged
@@ -182,7 +182,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 80f9db912fd7c2c498fecd127933f52e, type: 2}
+  - {fileID: 2100000, guid: 6345b8b185586c0489f6e7ad666fed4c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -347,19 +347,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65140676481283392
+--- !u!65 &65044701543525590
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1520331144770920}
+  m_GameObject: {fileID: 1945594964186726}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.4, z: 2}
-  m_Center: {x: 0, y: 0.2, z: -0.2}
---- !u!114 &114482877498301758
+  m_Size: {x: 1, y: 1, z: 1.0000002}
+  m_Center: {x: 0, y: 0, z: 0.0000076293945}
+--- !u!114 &114114725512828264
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -367,9 +367,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1520331144770920}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd722dcbbf851e44dba5570132a7981d, type: 3}
+  m_Script: {fileID: 11500000, guid: b36c10f7ba94d09428694f14accfc53a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ownerEntity: {fileID: 0}
   bulletPrefab: {fileID: 1740840108260222, guid: caaf5b4cc42907b4caa2b2d6688da775,
     type: 2}
 --- !u!136 &136090765862734842

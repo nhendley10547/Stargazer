@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 4225955054496440}
   - component: {fileID: 65850257088274420}
   - component: {fileID: 54931047026115574}
-  - component: {fileID: 114607514333244926}
+  - component: {fileID: 114962892816754482}
   m_Layer: 0
   m_Name: Rifle
   m_TagString: Equipment
@@ -876,7 +876,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.4, z: 2}
   m_Center: {x: 0, y: 0.2, z: -0.2}
---- !u!114 &114607514333244926
+--- !u!114 &114962892816754482
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -884,11 +884,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1490747722129716}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd722dcbbf851e44dba5570132a7981d, type: 3}
+  m_Script: {fileID: 11500000, guid: e5757a69eacbf004781046cf32a7a896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 1200003978224132, guid: 0c4c818132bc73040ac5d0a7c0469821,
-    type: 2}
+  ownerEntity: {fileID: 0}
+  bulletPrefab: {fileID: 0}
 --- !u!136 &136031767386936390
 CapsuleCollider:
   m_ObjectHideFlags: 1
