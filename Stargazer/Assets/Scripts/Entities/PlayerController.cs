@@ -73,8 +73,9 @@ public class PlayerController : Entity {
 
 					this.equipAction.OnEquip(item, playerView.transform);
 				}
-			} else if (this.equipment != null) {
-				this.equipAction.OnDrop(this.equipment);
+			} else if (Physics.Raycast(ray, out hitInfo, 3) && this.equipment != null) {
+				if (hitInfo.transform == null)
+					this.equipAction.OnDrop(this.equipment);
 			}
 		}
 

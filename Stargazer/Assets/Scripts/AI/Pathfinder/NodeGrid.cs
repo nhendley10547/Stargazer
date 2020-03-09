@@ -47,9 +47,11 @@ public class NodeGrid : MonoBehaviour {
 				if (!node.walkable) continue;
 				List<Node> neighbors = GetNeighbors(node);
 				int numberOfWalkable = neighbors.Count;
-				node.weight += (8 - GetNeighbors(node).Count) * 2;
+				node.weight += (8 - GetNeighbors(node).Count) * 3;
 			}
 		}
+
+		BlurWeightMap(3);
 	}
 
 	void BlurWeightMap(int blurSize) {
@@ -61,7 +63,29 @@ public class NodeGrid : MonoBehaviour {
 		for (int y = 0; y < gridSizeY; y++) {
 			for (int x = -kernelExtents; x <= kernelExtents; x++) {
 				int sampleX = Mathf.Clamp(x, 0, kernelExtents);
+				weightHozPass[0, y] += grid[sampleX, y].weight;
+			}
 
+			for (int x = 1; x < gridSizeX; x++) {
+				int removeIndex = Mathf.Clamp(x - kernelExtents - 1, 0, gridSizeX);
+				int addIndex = Mathf.Clamp(x + kernelExtents, 0, gridSizeX-1);
+				weightHozPass[x, y] = weightHozPass[x-1, y] - grid[removeIndex, y].weight + grid[addIndex, y].weight;
+
+			}
+		}
+
+		for (int x = 0; x < gridSizeX; x++) {
+			for (int y = -kernelExtents; y <= kernelExtents; y++) {
+				int sampleY = Mathf.Clamp(y, 0, kernelExtents);
+				weightVerPass[x, 0] += weightHozPass[x, sampleY];
+			}
+
+			for (int y = 1; y < gridSizeX; y++) {
+				int removeIndex = Mathf.Clamp(y - kernelExtents - 1, 0, gridSizeX);
+				int addIndex = Mathf.Clamp(y + kernelExtents, 0, gridSizeY-1);
+				weightVerPass[x, y] = weightVerPass[x, y-1] - weightHozPass[x, removeIndex] + weightHozPass[x, addIndex];
+				int blurredWeight = Mathf.RoundToInt((float) weightVerPass[x, y] / (kernelSize * kernelSize));
+				grid[x, y].weight = blurredWeight;
 			}
 		}
 	}
@@ -100,10 +124,10 @@ public class NodeGrid : MonoBehaviour {
 		
 		if (this.grid != null && displayGizmos) {
 			foreach(Node n in grid) {
-				Gizmos.color = n.walkable ? Color.white : Color.red;
-				Gizmos.DrawCube(n.worldPosition, Vector3.one * (this.nodeDiameter - .1f));
-				// if (n.walkable)
-				// 	Handles.Label(n.worldPosition, n.weight.ToString());
+				// Gizmos.color = n.walkable ? Color.white : Color.red;
+				// Gizmos.DrawCube(n.worldPosition, Vector3.one * (this.nodeDiameter - .1f));
+				if (n.walkable)
+					Handles.Label(n.worldPosition, n.weight.ToString());
 			}
 		}
 		
