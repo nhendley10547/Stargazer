@@ -21,7 +21,7 @@ public class PlayerController : Entity {
 		playerCollider = GetComponent<Collider>();
 		equipAction = GetComponent<EquipAction>();
 
-		Cursor.lockState = CursorLockMode.Locked;
+		//Cursor.lockState = CursorLockMode.Locked;
 	}
 
 	void Update() {
