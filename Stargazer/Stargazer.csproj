@@ -213,27 +213,29 @@
       <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnitySpatialTracking/RuntimeEditor/UnityEngine.SpatialTracking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Analytics">
-      <HintPath>C:/Users/ks145244/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
+      <HintPath>C:/Users/ad135266/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.analytics@1.0.1/UnityEngine.Analytics.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Purchasing">
-      <HintPath>C:/Users/ks145244/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
+      <HintPath>C:/Users/ad135266/AppData/LocalLow/Unity/cache/packages/packages.unity.com/com.unity.purchasing@1.0.1/UnityEngine.Purchasing.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Bullet.cs" />
+    <Compile Include="Assets\Scripts\Actions\EquipAction.cs" />
+    <Compile Include="Assets\Scripts\AI\AStarPathfind\Node.cs" />
+    <Compile Include="Assets\Scripts\AI\AStarPathfind\NodeGrid.cs" />
     <Compile Include="Assets\Scripts\Calculate.cs" />
-    <Compile Include="Assets\Scripts\Entity.cs" />
-    <Compile Include="Assets\Scripts\EquipAction.cs" />
-    <Compile Include="Assets\Scripts\Equipment.cs" />
-    <Compile Include="Assets\Scripts\Health.cs" />
-    <Compile Include="Assets\Scripts\LasBolt.cs" />
-    <Compile Include="Assets\Scripts\MonsterAI.cs" />
-    <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\Revolver.cs" />
-    <Compile Include="Assets\Scripts\Rifle.cs" />
-    <Compile Include="Assets\Scripts\Shotgun.cs" />
-    <Compile Include="Assets\Scripts\SMG.cs" />
-    <Compile Include="Assets\Scripts\Sniper.cs" />
+    <Compile Include="Assets\Scripts\Entities\Entity.cs" />
+    <Compile Include="Assets\Scripts\Entities\MonsterAI.cs" />
+    <Compile Include="Assets\Scripts\Entities\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\Statuses\Health.cs" />
+    <Compile Include="Assets\Scripts\Weapons\Bullet.cs" />
+    <Compile Include="Assets\Scripts\Weapons\Equipment.cs" />
+    <Compile Include="Assets\Scripts\Weapons\LasBolt.cs" />
+    <Compile Include="Assets\Scripts\Weapons\Revolver.cs" />
+    <Compile Include="Assets\Scripts\Weapons\Rifle.cs" />
+    <Compile Include="Assets\Scripts\Weapons\Shotgun.cs" />
+    <Compile Include="Assets\Scripts\Weapons\SMG.cs" />
+    <Compile Include="Assets\Scripts\Weapons\Sniper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Materials\Materials.txt" />
