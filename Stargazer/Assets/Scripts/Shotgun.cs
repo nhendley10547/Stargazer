@@ -3,6 +3,7 @@
 public class Shotgun : Equipment {
 
     public GameObject bulletPrefab;
+    public GameObject muzzleFlash;
     private float currentReloadTime = 0;
     private const float MAX_RELOAD_TIME = .6f;
     private const float BULLET_SPEED = 12.0f;
@@ -10,6 +11,7 @@ public class Shotgun : Equipment {
 
     public override void OnActivate() {
         if (this.currentReloadTime <= 0) {
+
             Vector3 bulletDirection = Calculate.HeadingBasedDirection(this.transform.position, this.transform.eulerAngles);
             Vector3 position = this.transform.GetChild(0).position + bulletDirection * .1f;
             Vector3 position1 = this.transform.GetChild(0).position + bulletDirection * .2f;
@@ -32,6 +34,9 @@ public class Shotgun : Equipment {
             bulletClone2.GetComponent<Bullet>().Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
             bulletClone3.GetComponent<Bullet>().Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
             bulletClone4.GetComponent<Bullet>().Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
+
+            GameObject shootFire = Instantiate(muzzleFlash, position, this.transform.rotation) as GameObject;
+
 
             this.currentReloadTime = MAX_RELOAD_TIME;
         }
