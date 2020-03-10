@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Actions\EquipAction.cs" />
+     <Compile Include="Assets\Scripts\AI\MovementAI.cs" />
      <Compile Include="Assets\Scripts\AI\Pathfinder\Heap.cs" />
      <Compile Include="Assets\Scripts\AI\Pathfinder\Line.cs" />
      <Compile Include="Assets\Scripts\AI\Pathfinder\Node.cs" />

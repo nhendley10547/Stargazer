@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class Line {
-	const float verticalLineGradient = 1e5f;
+	const float verticalLineGradient = 1e8f;
 
 	float gradient;
 	float y_intercept;

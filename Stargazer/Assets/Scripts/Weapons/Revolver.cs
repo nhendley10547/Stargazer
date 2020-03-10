@@ -11,7 +11,7 @@ public class Revolver : Equipment {
     public override void OnActivate() {
         if (this.currentReloadTime <= 0) {
             Vector3 bulletDirection = Calculate.HeadingBasedDirection(this.transform.position, this.transform.eulerAngles);
-            Vector3 position = this.transform.GetChild(0).position + bulletDirection * .2f;
+            Vector3 position = this.transform.GetChild(0).position + bulletDirection;
 
             GameObject bulletClone = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
             bulletClone.GetComponent<Bullet>().Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
