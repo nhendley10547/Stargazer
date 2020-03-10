@@ -5,25 +5,19 @@ using System;
 
 public class Pathfinding : MonoBehaviour {
 
-    PathRequestManager requestManager;
     NodeGrid nodeGrid;
     
     void Awake() {
         nodeGrid = GetComponent<NodeGrid>();
-        requestManager = GetComponent<PathRequestManager>();
     }
 
-    public void StartFindPath(Vector3 startPos, Vector3 targetPos) {
-        StartCoroutine(FindPath(startPos, targetPos));
-    }
-
-    IEnumerator FindPath(Vector3 startPos, Vector3 targetPos) {
+    public void FindPath(PathRequest request, Action<PathResult> callback) {
 
         Vector3[] waypoints = new Vector3[0];
         bool pathSuccess = false;
 
-        Node startNode = this.nodeGrid.NodeFromWorldPoint(startPos);
-        Node targetNode = this.nodeGrid.NodeFromWorldPoint(targetPos);
+        Node startNode = this.nodeGrid.NodeFromWorldPoint(request.pathStart);
+        Node targetNode = this.nodeGrid.NodeFromWorldPoint(request.pathEnd);
 
         if (!startNode.walkable) {
             List<Node> neighbors = nodeGrid.GetNeighbors(startNode);
@@ -72,11 +66,11 @@ public class Pathfinding : MonoBehaviour {
                 }
             }
         }
-        yield return null;
         if (pathSuccess) {
             waypoints = RetracePath(startNode, targetNode);
+            pathSuccess = waypoints.Length > 0;
         }
-        requestManager.FinishedProcessingPath(waypoints, pathSuccess);
+        callback(new PathResult(waypoints, pathSuccess, request.callback));
     }
 
     Vector3[] RetracePath(Node startNode, Node endNode) {

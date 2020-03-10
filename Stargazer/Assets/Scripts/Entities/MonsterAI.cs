@@ -7,16 +7,17 @@ public class MonsterAI : Entity {
 	private const int MAX_HEALTH = 10;
 	public GameObject weaponPrefab;
 	private Transform centerTransform;
+	private Rigidbody body;
 
 	[SerializeField]
 	private Transform targetRef;
 
 	public float speed = 5f;
-	public float turnSpeed = 2;
-	public float turnDst = 3;
+	public float turnSpeed = 1;
+	public float turnDst = 5;
 	const float pathUpdateMoveThreshold = .5f;
 	const float minPathUpdateTime = .2f;
-	public float stoppingDst = 10;
+	public float stoppingDst = 50;
 
 	Path path;
 
@@ -27,6 +28,7 @@ public class MonsterAI : Entity {
 		this.direction = this.transform.eulerAngles;
 		this.position = this.transform.position;
 
+		body = GetComponent<Rigidbody>();
 		GetComponent<Health>().SetHealth(MAX_HEALTH);
 		Equipment weapon = Instantiate(weaponPrefab, Vector3.zero, Quaternion.Euler(0,0,0)).GetComponent<Equipment>();
 		GetComponent<EquipAction>().OnEquip(weapon, this.centerTransform);
@@ -55,7 +57,7 @@ public class MonsterAI : Entity {
 
 	public void OnPathFound(Vector3[] waypoints, bool success) {
 		if (success) {
-			this.path = new Path(waypoints, transform.position, turnDst);
+			this.path = new Path(waypoints, transform.position, turnDst, stoppingDst);
 			StopCoroutine("FollowPath");
 			StartCoroutine("FollowPath");
 		}
@@ -67,14 +69,14 @@ public class MonsterAI : Entity {
 			yield return new WaitForSeconds(.3f);
 		}
 
-		PathRequestManager.RequestPath(transform.position, targetRef.position, OnPathFound);
+		PathRequestManager.RequestPath(new PathRequest(transform.position, targetRef.position, OnPathFound));
 		float sqrMoveThreshold = pathUpdateMoveThreshold * pathUpdateMoveThreshold;
 		Vector3 targetPosOld = targetRef.position;
 
 		while(true) {
 			yield return new WaitForSeconds(minPathUpdateTime);
 			if((targetRef.position - targetPosOld).sqrMagnitude > sqrMoveThreshold) {
-				PathRequestManager.RequestPath(transform.position, targetRef.position, OnPathFound);
+				PathRequestManager.RequestPath(new PathRequest(transform.position, targetRef.position, OnPathFound));
 				targetPosOld = targetRef.position;
 			}
 		}
@@ -99,11 +101,22 @@ public class MonsterAI : Entity {
 			}
 
 			if (followingPath) {
-				speedPercent = path.turnBoundaries[path.finishLineIndex].DistanceFromPoint(pos2D) / stoppingDst;
-
+				if (pathIndex >= path.slowDownIndex && stoppingDst > 0) {
+					speedPercent = path.turnBoundaries[path.finishLineIndex].DistanceFromPoint(pos2D) / stoppingDst;
+					if (speedPercent < 0.01f) {
+						followingPath = false;
+					}
+				}
 				Quaternion targetRotation = Quaternion.LookRotation(path.lookPoints[pathIndex] - transform.position);
-				transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
-				transform.Translate(Vector3.forward * Time.deltaTime * speed * speedPercent, Space.Self);
+				Quaternion rot = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
+				Vector3 dir = rot.eulerAngles * Mathf.PI;
+				dir.Normalize();
+
+				print(dir);
+				body.MoveRotation(rot);
+				//transform.Translate(Vector3.forward * Time.deltaTime * speed * speedPercent, Space.Self);
+				body.MovePosition(transform.position + Vector3.forward * Time.deltaTime * speed * speedPercent);
+				
 			}
 
 
