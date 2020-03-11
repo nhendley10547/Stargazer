@@ -12,21 +12,14 @@ public class PlayerController : Entity {
 	private float yRotation = 0.0f;
 
 	private EquipAction equipAction;
-	public GameObject weaponPrefab;
 
 	void Start() {
 		playerView.enabled = true;
 		playerView.transform.position = transform.position + Vector3.up * .5f;
-		print(playerView.transform.position);
 		playerView.transform.eulerAngles = this.direction = transform.eulerAngles;
 		playerBody = GetComponent<Rigidbody>();
 		playerCollider = GetComponent<Collider>();
 		equipAction = GetComponent<EquipAction>();
-
-		if (weaponPrefab != null) {
-			Equipment weapon = Instantiate(weaponPrefab, Vector3.zero, playerView.transform.rotation).GetComponent<Equipment>();
-			equipAction.OnEquip(weapon, playerView.transform);
-		}
 
 		//Cursor.lockState = CursorLockMode.Locked;
 	}
@@ -68,7 +61,6 @@ public class PlayerController : Entity {
 	void InteractionControl() {
 		
 		if (Input.GetKeyDown(KeyCode.E)) { 
-			print("E key is pressed...");
 			Ray ray = new Ray(playerView.transform.position, playerView.transform.forward);
 			RaycastHit hitInfo;
 
@@ -81,8 +73,9 @@ public class PlayerController : Entity {
 
 					this.equipAction.OnEquip(item, playerView.transform);
 				}
-			} else if (!Physics.Raycast(ray, out hitInfo, 3) && this.equipment != null) {
-				this.equipAction.OnDrop(this.equipment);
+			} else if (Physics.Raycast(ray, out hitInfo, 3) && this.equipment != null) {
+				if (hitInfo.transform == null)
+					this.equipAction.OnDrop(this.equipment);
 			}
 		}
 
