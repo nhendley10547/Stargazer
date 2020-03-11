@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class SMG : Equipment {
 
@@ -7,11 +8,12 @@ public class SMG : Equipment {
     private const float MAX_RELOAD_TIME = .025f;
     private const float BULLET_SPEED = 20.0f;
     private const float BULLET_RANGE = 100.0f;
+    private const float MAX_AMMO = 100;
     private float currentAmmo = 100;
 
 
     public override void OnActivate() {
-        if (currentAmmo > 0) {
+        if (currentAmmo >= 0) {
             int RND = Random.Range(-1, 1);
             int RND2 = Random.Range(-2, 2);
 
@@ -23,8 +25,9 @@ public class SMG : Equipment {
                 bulletClone.transform.localScale = new Vector3(0.05f, .05f, .05f);
                 bulletClone.GetComponent<LasBolt>().Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
 
+                Text txtAmmo = GameObject.Find("UI/AmmoCounter").GetComponent<Text>();
+                txtAmmo.text = "Ammo: " + currentAmmo + "/" + MAX_AMMO;
                 this.currentReloadTime = MAX_RELOAD_TIME;
-
                 currentAmmo--;
             }
         }
