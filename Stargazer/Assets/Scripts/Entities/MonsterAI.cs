@@ -24,6 +24,7 @@ public class MonsterAI : Entity {
 
 	void Start () {
 		centerTransform = transform.GetChild(0);
+		centerTransform.rotation = transform.rotation;
 		this.direction = this.transform.eulerAngles;
 		this.position = this.transform.position;
 		this.velocity = Vector3.zero;
@@ -36,51 +37,67 @@ public class MonsterAI : Entity {
 		GetComponent<EquipAction>().OnEquip(weapon, this.centerTransform);
 	}
 
-	void Update() {
-		if (targetRef != null) {
-			RaycastHit hitInfo;
+	void CheckStatus() {
+		RaycastHit hitInfo;
 
-			//Sends a raycast to determine if the player can be seen if rotates only.
-			Ray rayCanBeSeen = new Ray(centerTransform.position, targetRef.position - centerTransform.position);
+		//Sends a raycast to determine if the player can be seen.
+		Vector3 dir =  targetRef.position - centerTransform.position;
 
-			if (Physics.Raycast(rayCanBeSeen, out hitInfo)) { 
-				if (hitInfo.transform.tag == "Player") {
-					targetCanBeSeen = true;
-				} else {
-					targetCanBeSeen = false;
-				}
+		RaycastHit hitRayLeft;
+		Quaternion spreadAngleLeft = Quaternion.AngleAxis(-1, Vector3.up);
+		Vector3 angleLeft = spreadAngleLeft * dir;
+		Ray raySpreadLeft = new Ray (transform.position, angleLeft);
+
+		RaycastHit hitRayRight;
+		Quaternion spreadAngleRight = Quaternion.AngleAxis(1, Vector3.up);
+		Vector3 angleRight = spreadAngleRight * dir;
+		Ray raySpreadRight = new Ray (transform.position, angleRight);
+
+		Ray rayCanBeSeen = new Ray(centerTransform.position, dir);
+
+		if (Physics.Raycast(rayCanBeSeen, out hitInfo) && 
+			Physics.Raycast(raySpreadLeft, out hitRayLeft) && 
+			Physics.Raycast(raySpreadRight, out hitRayRight)) { 
+			if (hitInfo.transform.tag == "Player" && 
+				hitRayLeft.transform.tag == "Player" && 
+				hitRayRight.transform.tag == "Player") {
+				targetCanBeSeen = true;
 			} else {
 				targetCanBeSeen = false;
 			}
+		} else {
+			targetCanBeSeen = false;
+		}
 
-			//Sends a raycast to determine if the player is infront of the enemy.
-			Ray rayLineOfSight = new Ray(centerTransform.position, centerTransform.forward);
+		//Sends a raycast to determine if the player is infront of the enemy.
+		Ray rayLineOfSight = new Ray(centerTransform.position, centerTransform.forward);
 
-			if (Physics.Raycast(rayLineOfSight, out hitInfo)) { 
-				if (hitInfo.transform.tag == "Player") {
-					targetInLineOfSight = true;
-				} else {
-					targetInLineOfSight = false;
-				}
+		if (Physics.Raycast(rayLineOfSight, out hitInfo)) { 
+			if (hitInfo.transform.tag == "Player") {
+				targetInLineOfSight = true;
 			} else {
 				targetInLineOfSight = false;
 			}
-
-			//if target is within the spotting range then activate target spotted
-			if (Vector3.Distance(targetRef.position, transform.position) >= DETECTION_RANGE) {
-				targetDetected = false;
-			} else {
-				targetDetected = true;
-			}
-
-			//if target is within the shooting range then activate target shooting
-			if (Vector3.Distance(targetRef.position, transform.position) >= SHOOTING_RANGE) {
-				targetInShootingRange = false;
-			} else {
-				targetInShootingRange = true;
-			}
+		} else {
+			targetInLineOfSight = false;
 		}
 
+		//if target is within the spotting range then activate target spotted
+		if (Vector3.Distance(targetRef.position, transform.position) >= DETECTION_RANGE) {
+			targetDetected = false;
+		} else {
+			targetDetected = true;
+		}
+
+		//if target is within the shooting range then activate target shooting
+		if (Vector3.Distance(targetRef.position, transform.position) >= SHOOTING_RANGE) {
+			targetInShootingRange = false;
+		} else {
+			targetInShootingRange = true;
+		}
+	}
+
+	void AIBehavior() {
 		//If target is spotted...
 		if (targetDetected) {
 			if (!targetInShootingRange || !targetCanBeSeen) {
@@ -89,12 +106,23 @@ public class MonsterAI : Entity {
 				movementAI.EndNavigation();
 			}
 
+
 			if (targetInLineOfSight) {
 				this.equipment.OnActivate();
-			} else if (targetCanBeSeen) {
+			}
+			
+			if (targetCanBeSeen && targetInShootingRange) {
 				Quaternion q = Quaternion.LookRotation(targetRef.position - centerTransform.position);
+
 				centerTransform.rotation = Quaternion.Slerp(centerTransform.rotation, q, 5 * Time.deltaTime);
 			}
+		}
+	}
+
+	void Update() {
+		if (targetRef != null) {
+			CheckStatus();
+			AIBehavior();
 		}
 	}
 
@@ -103,6 +131,7 @@ public class MonsterAI : Entity {
 			transform.Translate(this.velocity * this.speed * Time.fixedDeltaTime);
 			this.position = transform.position;
 			transform.eulerAngles = this.direction;
+			centerTransform.rotation = Quaternion.Slerp(centerTransform.rotation, transform.rotation, 5*Time.deltaTime);
 		}
 	}
 

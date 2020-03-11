@@ -187,14 +187,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0bb0cb5abed367439a339810a8d705e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velocity: {x: 0, y: 0, z: 0}
-  direction: {x: 0, y: 0, z: 0}
-  position: {x: 0, y: 0, z: 0}
-  equipment: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 256
   playerView: {fileID: 20410137077555692}
+  weaponPrefab: {fileID: 1522153295813046, guid: 3d775168abb5cca4491c8f71ef2db1bc,
+    type: 2}
 --- !u!114 &114652470698780346
 MonoBehaviour:
   m_ObjectHideFlags: 1
