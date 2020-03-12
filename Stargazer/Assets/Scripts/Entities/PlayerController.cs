@@ -62,6 +62,13 @@ public class PlayerController : Entity {
         {
             playerBody.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
         }
+
+        if (!isGrounded) {
+            speed = 8;
+        }
+        else {
+            speed = 5;
+        }
 	}
 
 	void InteractionControl() {
