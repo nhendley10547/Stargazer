@@ -24,7 +24,8 @@ public class EquipAction : MonoBehaviour {
         body.useGravity = false;
         body.detectCollisions = false;
 
-        item.transform.position = Calculate.DirectionBasedPosition(this.ownerEntity.position, this.ownerEntity.direction + Vector3.right * this.holdingAngle, this.holdingDistance);        item.transform.eulerAngles = this.ownerEntity.direction;
+        item.transform.localPosition = Calculate.DirectionBasedPosition(Vector3.zero, this.transform.forward + Vector3.right * this.holdingAngle, this.holdingDistance);
+        item.transform.eulerAngles = this.ownerEntity.direction;
         item.transform.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 	}
 
