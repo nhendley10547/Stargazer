@@ -22,10 +22,11 @@ GameObject:
   - component: {fileID: 33128436544443628}
   - component: {fileID: 136120955063238864}
   - component: {fileID: 23857192760016306}
-  - component: {fileID: 114257667843029186}
   - component: {fileID: 114345920387306598}
   - component: {fileID: 114763199897008606}
   - component: {fileID: 54949362125756674}
+  - component: {fileID: 114908744272464262}
+  - component: {fileID: 114372679727156708}
   m_Layer: 0
   m_Name: Monster
   m_TagString: Entity
@@ -131,26 +132,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &114257667843029186
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1456679060279670}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 794ee006e37b180458d993391b969f87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  velocity: {x: 0, y: 0, z: 0}
-  direction: {x: 0, y: 0, z: 0}
-  position: {x: 0, y: 0, z: 0}
-  equipment: {fileID: 0}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  weaponPrefab: {fileID: 0}
-  targetRef: {fileID: 0}
 --- !u!114 &114345920387306598
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -165,6 +146,20 @@ MonoBehaviour:
   holdingAngle: 0
   holdingDistance: 1
   droppingDistance: 1
+--- !u!114 &114372679727156708
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1456679060279670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f88ea2e63053c44992ed521e9de0e62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnSpeed: 3
+  turnDst: 1
+  stoppingDst: 5
 --- !u!114 &114763199897008606
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -177,6 +172,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entityHealth: 100
+--- !u!114 &114908744272464262
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1456679060279670}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 794ee006e37b180458d993391b969f87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  weaponPrefab: {fileID: 1522153295813046, guid: 3d775168abb5cca4491c8f71ef2db1bc,
+    type: 2}
+  targetRef: {fileID: 4384718418378504, guid: 696c50bce5b8d494a9b9c3162fffbfe7, type: 2}
+  speed: 5
 --- !u!136 &136120955063238864
 CapsuleCollider:
   m_ObjectHideFlags: 1
