@@ -14,8 +14,8 @@ public class Revolver : Equipment {
     public override void OnActivate() {
         if (currentAmmo >= 0) {
             if (this.currentReloadTime <= 0) {
-                Text txtAmmo = GameObject.Find("UI/AmmoCounter").GetComponent<Text>();
-                txtAmmo.text = "Ammo: " + currentAmmo + "/" + MAX_AMMO;
+                //Text txtAmmo = GameObject.Find("UI/AmmoCounter").GetComponent<Text>();
+               // txtAmmo.text = "Ammo: " + currentAmmo + "/" + MAX_AMMO;
 
                 Vector3 bulletDirection = Calculate.HeadingBasedDirection(this.transform.position, this.transform.eulerAngles);
                 Vector3 position = this.transform.GetChild(0).position + bulletDirection * .2f;
