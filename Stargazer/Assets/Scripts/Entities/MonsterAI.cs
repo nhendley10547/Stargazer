@@ -44,12 +44,12 @@ public class MonsterAI : Entity {
 		Vector3 dir =  targetRef.position - centerTransform.position;
 
 		RaycastHit hitRayLeft;
-		Quaternion spreadAngleLeft = Quaternion.AngleAxis(-2, Vector3.up);
+		Quaternion spreadAngleLeft = Quaternion.AngleAxis(-1, Vector3.up);
 		Vector3 angleLeft = spreadAngleLeft * dir;
 		Ray raySpreadLeft = new Ray (transform.position, angleLeft);
 
 		RaycastHit hitRayRight;
-		Quaternion spreadAngleRight = Quaternion.AngleAxis(2, Vector3.up);
+		Quaternion spreadAngleRight = Quaternion.AngleAxis(1, Vector3.up);
 		Vector3 angleRight = spreadAngleRight * dir;
 		Ray raySpreadRight = new Ray (transform.position, angleRight);
 
@@ -110,14 +110,16 @@ public class MonsterAI : Entity {
 	void AIBehavior() {
 		//If target is spotted...
 		if (targetDetected) {
-			if (!targetInShootingRange || !targetCanBeSeen) {
-				movementAI.NavigateTo(targetRef.position);
-			} else {
-				movementAI.EndNavigation();
-			}
+			if (movementAI != null) {
+				if (!targetInShootingRange || !targetCanBeSeen) {
+					movementAI.NavigateTo(targetRef.position);
+				} else {
+					movementAI.EndNavigation();
+				}
 
-			if (targetInLineOfSight) {
-				this.equipment.OnActivate();
+				if (targetInLineOfSight) {
+					this.equipment.OnActivate();
+				}
 			}
 
 			if (targetCanBeSeen && targetInShootingRange) {
