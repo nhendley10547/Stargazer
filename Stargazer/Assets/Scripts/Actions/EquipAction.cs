@@ -12,7 +12,9 @@ public class EquipAction : MonoBehaviour {
 
 	void Awake() {
 		ownerEntity = GetComponent<Entity>();
-	}
+
+       
+    }
 
 	public void OnEquip(Equipment item, Transform transform) {
         item.ownerEntity = ownerEntity;
