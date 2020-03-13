@@ -12,7 +12,6 @@ public class Health : MonoBehaviour {
 
 	public void ChangeHealthBy(int healthValue) {
 		this.entityHealth -= healthValue;
-		print("Hit! Damage: " + healthValue);
 	}
 
 	void Update () {
