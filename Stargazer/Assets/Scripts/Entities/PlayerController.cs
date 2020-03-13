@@ -6,7 +6,7 @@ public class PlayerController : Entity {
 	private Collider playerCollider;
 	private Rigidbody playerBody;
 
-	private float speed = 5.0f;
+    private float speed = 5.0f;
 	private float jumpHeight = 2.0f;
 	private float mouseSensitivity = 200.0f;
 	private float yRotation = 0.0f;
@@ -20,14 +20,14 @@ public class PlayerController : Entity {
 		playerView.transform.eulerAngles = this.direction = transform.eulerAngles;
 		playerBody = GetComponent<Rigidbody>();
 		playerCollider = GetComponent<Collider>();
-		equipAction = GetComponent<EquipAction>();
+        equipAction = GetComponent<EquipAction>();
 
-		if (weaponPrefab != null) {
-			Equipment weapon = Instantiate(weaponPrefab, Vector3.zero, Quaternion.Euler(0,0,0)).GetComponent<Equipment>();
-			equipAction.OnEquip(weapon, playerView.transform);
-		}
-
-		//Cursor.lockState = CursorLockMode.Locked;
+        if (weaponPrefab != null)
+        {
+            Equipment weapon = Instantiate(weaponPrefab, Vector3.zero, Quaternion.Euler(0, 0, 0)).GetComponent<Equipment>();
+            equipAction.OnEquip(weapon, playerView.transform);
+        }
+        Cursor.lockState = CursorLockMode.Locked;
 	}
 
 	void Update() {
@@ -83,6 +83,8 @@ public class PlayerController : Entity {
 					if (this.equipment != null) {
 						this.equipAction.OnDrop(this.equipment);
 					}
+
+					print("Name: " + hitInfo.transform.name);
 
 					this.equipAction.OnEquip(item, playerView.transform);
 				}
