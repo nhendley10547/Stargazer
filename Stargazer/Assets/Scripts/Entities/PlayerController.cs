@@ -5,7 +5,6 @@ public class PlayerController : Entity {
 	public Camera playerView;
 	private Collider playerCollider;
 	private Rigidbody playerBody;
-    public GameObject weaponPrefab;
 
     private float speed = 5.0f;
 	private float jumpHeight = 2.0f;
