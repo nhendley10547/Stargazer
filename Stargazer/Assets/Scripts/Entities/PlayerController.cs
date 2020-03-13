@@ -13,6 +13,7 @@ public class PlayerController : Entity {
 	private float yRotation = 0.0f;
 
 	private EquipAction equipAction;
+	public GameObject weaponPrefab;
 
 	void Start() {
 		playerView.enabled = true;
@@ -77,9 +78,11 @@ public class PlayerController : Entity {
 						this.equipAction.OnDrop(this.equipment);
 					}
 
+					print("Name: " + hitInfo.transform.name);
+
 					this.equipAction.OnEquip(item, playerView.transform);
 				}
-			} else if (this.equipment != null) {
+			} else if (!Physics.Raycast(ray, out hitInfo, 3) && this.equipment != null) {
 				this.equipAction.OnDrop(this.equipment);
 			}
 		}
