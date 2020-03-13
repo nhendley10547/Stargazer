@@ -693,7 +693,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4384718418378504, guid: 696c50bce5b8d494a9b9c3162fffbfe7, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -2.4
+      value: 6.26
       objectReference: {fileID: 0}
     - target: {fileID: 4384718418378504, guid: 696c50bce5b8d494a9b9c3162fffbfe7, type: 2}
       propertyPath: m_LocalPosition.y
@@ -701,7 +701,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4384718418378504, guid: 696c50bce5b8d494a9b9c3162fffbfe7, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -3.3
+      value: 2.17
       objectReference: {fileID: 0}
     - target: {fileID: 4384718418378504, guid: 696c50bce5b8d494a9b9c3162fffbfe7, type: 2}
       propertyPath: m_LocalRotation.x
@@ -1191,7 +1191,8 @@ Prefab:
       propertyPath: targetRef
       value: 
       objectReference: {fileID: 877328396}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114372679727156708, guid: de41e08cc7b72774aaa9c133ac293288, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: de41e08cc7b72774aaa9c133ac293288, type: 2}
   m_IsPrefabParent: 0
 --- !u!4 &2087556630 stripped
