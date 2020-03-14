@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MonsterAI : Entity {
 
-	private const int MAX_HEALTH = 10;
+	public int maxHealth = 10;
 	public GameObject weaponPrefab;
 	private Transform centerTransform;
 
@@ -15,8 +15,8 @@ public class MonsterAI : Entity {
 	private bool targetInShootingRange;
 	private bool targetCanBeSeen;
 
-	private const int DETECTION_RANGE = 80;
-	private const int SHOOTING_RANGE = 40;
+	public int detectionRange = 80;
+	public int shootingRange = 60;
 
 	public float speed = 20f;
 
@@ -32,7 +32,7 @@ public class MonsterAI : Entity {
 		targetDetected = targetCanBeSeen = targetInLineOfSight = targetInShootingRange = false;
 
 		movementAI = GetComponent<MovementAI>();
-		GetComponent<Health>().SetHealth(MAX_HEALTH);
+		GetComponent<Health>().SetHealth(maxHealth);
 		Equipment weapon = Instantiate(weaponPrefab, Vector3.zero, Quaternion.Euler(0,0,0)).GetComponent<Equipment>();
 		GetComponent<EquipAction>().OnEquip(weapon, this.centerTransform);
 	}
@@ -96,13 +96,13 @@ public class MonsterAI : Entity {
 		}
 
 		//if target is within the spotting range then activate target spotted
-		if (Vector3.Distance(targetRef.position, transform.position) >= DETECTION_RANGE) {
+		if (Vector3.Distance(targetRef.position, transform.position) >= detectionRange) {
 			targetDetected = false;
 		} else {
 			targetDetected = true;
 		}
 
-		if (Vector3.Distance(targetRef.position, transform.position) >= SHOOTING_RANGE) {
+		if (Vector3.Distance(targetRef.position, transform.position) >= shootingRange) {
 			targetInShootingRange = false;
 		} else {
 			targetInShootingRange = true;
