@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MonsterAI : Entity {
 
-	private const int MAX_HEALTH = 10;
+	public int maxHealth = 10;
 	public GameObject weaponPrefab;
 	private Transform centerTransform;
 
@@ -15,8 +15,8 @@ public class MonsterAI : Entity {
 	private bool targetInShootingRange;
 	private bool targetCanBeSeen;
 
-	private const int DETECTION_RANGE = 80;
-	private const int SHOOTING_RANGE = 40;
+	public int detectionRange = 80;
+	public int shootingRange = 60;
 
 	public float speed = 20f;
 
@@ -32,7 +32,7 @@ public class MonsterAI : Entity {
 		targetDetected = targetCanBeSeen = targetInLineOfSight = targetInShootingRange = false;
 
 		movementAI = GetComponent<MovementAI>();
-		GetComponent<Health>().SetHealth(MAX_HEALTH);
+		GetComponent<Health>().SetHealth(maxHealth);
 		Equipment weapon = Instantiate(weaponPrefab, Vector3.zero, Quaternion.Euler(0,0,0)).GetComponent<Equipment>();
 		GetComponent<EquipAction>().OnEquip(weapon, this.centerTransform);
 	}
@@ -42,30 +42,34 @@ public class MonsterAI : Entity {
 
 		//Sends a raycast to determine if the player can be seen.
 		Vector3 dir =  targetRef.position - centerTransform.position;
+		
+		float x;
+		float z;
+		float radians = Mathf.Atan2(dir.z, dir.x);
 
 		RaycastHit hitRayLeft;
-		Quaternion spreadAngleLeft = Quaternion.AngleAxis(-1, Vector3.up);
-		Vector3 angleLeft = spreadAngleLeft * dir;
-		Ray raySpreadLeft = new Ray (transform.position, angleLeft);
+		// Quaternion spreadAngleLeft = Quaternion.AngleAxis(-1, Vector3.up);
+		// Vector3 angleLeft = spreadAngleLeft * dir;
+		x = .3f * Mathf.Cos(radians + Mathf.PI / 2);
+		z = .3f * Mathf.Sin(radians + Mathf.PI / 2);
+		Ray raySpreadLeft = new Ray (centerTransform.position + new Vector3(x, 0, z), dir);
+		bool left = Physics.Raycast(raySpreadLeft, out hitRayLeft);
+		// Debug.DrawLine(centerTransform.position + new Vector3(x, 0, z), hitRayLeft.point, Color.blue);
 
 		RaycastHit hitRayRight;
-		Quaternion spreadAngleRight = Quaternion.AngleAxis(1, Vector3.up);
-		Vector3 angleRight = spreadAngleRight * dir;
-		Ray raySpreadRight = new Ray (transform.position, angleRight);
+		// Quaternion spreadAngleRight = Quaternion.AngleAxis(1, Vector3.up);
+		// Vector3 angleRight = spreadAngleRight * dir;
+		x = .3f * Mathf.Cos(radians - Mathf.PI / 2);
+		z = .3f * Mathf.Sin(radians - Mathf.PI / 2);
+		Ray raySpreadRight = new Ray (centerTransform.position + new Vector3(x, 0, z), dir);
+		bool right = Physics.Raycast(raySpreadRight, out hitRayRight);
+		// Debug.DrawLine(centerTransform.position + new Vector3(x, 0, z), hitRayRight.point, Color.blue);
 
 		Ray rayCanBeSeen = new Ray(centerTransform.position, dir);
-		
-		Physics.Raycast(rayCanBeSeen, out hitInfo);
-		Physics.Raycast(raySpreadLeft, out hitRayLeft);
-		Physics.Raycast(raySpreadRight, out hitRayRight);
-		Debug.DrawLine(centerTransform.position, hitInfo.point, Color.green);
-		Debug.DrawLine(centerTransform.position, hitRayLeft.point, Color.green);
-		Debug.DrawLine(centerTransform.position, hitRayRight.point, Color.green);
+		bool center = Physics.Raycast(rayCanBeSeen, out hitInfo);
+		// Debug.DrawLine(centerTransform.position, hitInfo.point, Color.green);
 
-		if (Physics.Raycast(rayCanBeSeen, out hitInfo) && 
-			Physics.Raycast(raySpreadLeft, out hitRayLeft) && 
-			Physics.Raycast(raySpreadRight, out hitRayRight)) { 
-			
+		if (left && right && center) {
 			if (hitInfo.transform.tag == "Player" && 
 				hitRayLeft.transform.tag == "Player" && 
 				hitRayRight.transform.tag == "Player") {
@@ -76,8 +80,6 @@ public class MonsterAI : Entity {
 		} else {
 			targetCanBeSeen = false;
 		}
-
-		
 			
 
 		//Sends a raycast to determine if the player is infront of the enemy.
@@ -94,13 +96,13 @@ public class MonsterAI : Entity {
 		}
 
 		//if target is within the spotting range then activate target spotted
-		if (Vector3.Distance(targetRef.position, transform.position) >= DETECTION_RANGE) {
+		if (Vector3.Distance(targetRef.position, transform.position) >= detectionRange) {
 			targetDetected = false;
 		} else {
 			targetDetected = true;
 		}
 
-		if (Vector3.Distance(targetRef.position, transform.position) >= SHOOTING_RANGE) {
+		if (Vector3.Distance(targetRef.position, transform.position) >= shootingRange) {
 			targetInShootingRange = false;
 		} else {
 			targetInShootingRange = true;
