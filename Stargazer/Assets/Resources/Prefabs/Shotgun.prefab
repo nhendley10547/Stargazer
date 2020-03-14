@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4358118392393822}
   - component: {fileID: 33906260828947472}
   - component: {fileID: 23179619636623554}
+  - component: {fileID: 65538450242565804}
   m_Layer: 0
   m_Name: Barrel
   m_TagString: Untagged
@@ -38,6 +39,7 @@ GameObject:
   - component: {fileID: 4475488456623012}
   - component: {fileID: 33030701202286704}
   - component: {fileID: 23587971155171278}
+  - component: {fileID: 65375930664588854}
   m_Layer: 0
   m_Name: Grip
   m_TagString: Untagged
@@ -53,7 +55,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4036911481841786}
-  - component: {fileID: 65635357848783748}
   - component: {fileID: 54154345054315520}
   - component: {fileID: 114630930007879414}
   m_Layer: 0
@@ -73,6 +74,7 @@ GameObject:
   - component: {fileID: 4911123353647120}
   - component: {fileID: 33701982709775196}
   - component: {fileID: 23005648624174102}
+  - component: {fileID: 65264130427719432}
   m_Layer: 0
   m_Name: Slide
   m_TagString: Untagged
@@ -346,18 +348,42 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65635357848783748
+--- !u!65 &65264130427719432
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1439612635014264}
+  m_GameObject: {fileID: 1725209146199810}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.4, z: 2}
-  m_Center: {x: 0, y: 0.2, z: -0.2}
+  m_Size: {x: 0.99999994, y: 1, z: 0.99999994}
+  m_Center: {x: -0.0000076293945, y: 0.0000019073486, z: -0.0000019073486}
+--- !u!65 &65375930664588854
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1371053612023410}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1.0000001}
+  m_Center: {x: 0, y: -0.0000009536743, z: -0.0000038146973}
+--- !u!65 &65538450242565804
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1030429612066792}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 0.99999994}
+  m_Center: {x: 0, y: 0.0000009536743, z: -0.00000047683716}
 --- !u!65 &65863561251308620
 BoxCollider:
   m_ObjectHideFlags: 1
