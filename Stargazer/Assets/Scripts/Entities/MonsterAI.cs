@@ -50,24 +50,24 @@ public class MonsterAI : Entity {
 		RaycastHit hitRayLeft;
 		// Quaternion spreadAngleLeft = Quaternion.AngleAxis(-1, Vector3.up);
 		// Vector3 angleLeft = spreadAngleLeft * dir;
-		x = .7f * Mathf.Cos(radians + Mathf.PI / 2);
-		z = .7f * Mathf.Sin(radians + Mathf.PI / 2);
+		x = .3f * Mathf.Cos(radians + Mathf.PI / 2);
+		z = .3f * Mathf.Sin(radians + Mathf.PI / 2);
 		Ray raySpreadLeft = new Ray (centerTransform.position + new Vector3(x, 0, z), dir);
 		bool left = Physics.Raycast(raySpreadLeft, out hitRayLeft);
-		Debug.DrawLine(centerTransform.position + new Vector3(x, 0, z), hitRayLeft.point, Color.blue);
+		// Debug.DrawLine(centerTransform.position + new Vector3(x, 0, z), hitRayLeft.point, Color.blue);
 
 		RaycastHit hitRayRight;
 		// Quaternion spreadAngleRight = Quaternion.AngleAxis(1, Vector3.up);
 		// Vector3 angleRight = spreadAngleRight * dir;
-		x = .7f * Mathf.Cos(radians - Mathf.PI / 2);
-		z = .7f * Mathf.Sin(radians - Mathf.PI / 2);
+		x = .3f * Mathf.Cos(radians - Mathf.PI / 2);
+		z = .3f * Mathf.Sin(radians - Mathf.PI / 2);
 		Ray raySpreadRight = new Ray (centerTransform.position + new Vector3(x, 0, z), dir);
 		bool right = Physics.Raycast(raySpreadRight, out hitRayRight);
-		Debug.DrawLine(centerTransform.position + new Vector3(x, 0, z), hitRayRight.point, Color.blue);
+		// Debug.DrawLine(centerTransform.position + new Vector3(x, 0, z), hitRayRight.point, Color.blue);
 
 		Ray rayCanBeSeen = new Ray(centerTransform.position, dir);
 		bool center = Physics.Raycast(rayCanBeSeen, out hitInfo);
-		Debug.DrawLine(centerTransform.position, hitInfo.point, Color.green);
+		// Debug.DrawLine(centerTransform.position, hitInfo.point, Color.green);
 
 		if (left && right && center) {
 			if (hitInfo.transform.tag == "Player" && 
@@ -80,8 +80,6 @@ public class MonsterAI : Entity {
 		} else {
 			targetCanBeSeen = false;
 		}
-
-		
 			
 
 		//Sends a raycast to determine if the player is infront of the enemy.

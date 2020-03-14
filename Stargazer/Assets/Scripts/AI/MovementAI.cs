@@ -103,9 +103,9 @@ public class MovementAI : MonoBehaviour {
 	}
 
 	
-	public void OnDrawGizmos() {
-		if (path != null) {
-			path.DrawWithGizmos ();
-		}
-	}
+	// public void OnDrawGizmos() {
+	// 	if (path != null) {
+	// 		//path.DrawWithGizmos ();
+	// 	}
+	// }
 }
