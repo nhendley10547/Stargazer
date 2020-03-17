@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : Entity {
 
@@ -40,6 +41,8 @@ public class PlayerController : Entity {
 	void FixedUpdate() {
 		playerBody.MovePosition(playerBody.position + this.velocity * Time.deltaTime);
 		position = playerView.transform.position;
+		Text txtAmmo = GameObject.Find("UI/AmmoCounter").GetComponent<Text>();
+		txtAmmo.text = "Ammo: " + this.equipment;
 	}
 
 	void MoveControl() {
