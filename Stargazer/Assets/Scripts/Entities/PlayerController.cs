@@ -23,8 +23,7 @@ public class PlayerController : Entity {
 		playerCollider = GetComponent<Collider>();
         equipAction = GetComponent<EquipAction>();
 
-        if (weaponPrefab != null)
-        {
+        if (weaponPrefab != null) {
             Equipment weapon = Instantiate(weaponPrefab, Vector3.zero, Quaternion.Euler(0, 0, 0)).GetComponent<Equipment>();
             equipAction.OnEquip(weapon, playerView.transform);
         }
@@ -41,8 +40,10 @@ public class PlayerController : Entity {
 	void FixedUpdate() {
 		playerBody.MovePosition(playerBody.position + this.velocity * Time.deltaTime);
 		position = playerView.transform.position;
-		Text txtAmmo = GameObject.Find("UI/AmmoCounter").GetComponent<Text>();
-		txtAmmo.text = "Ammo: " + this.equipment;
+		//if (this.equipment != null) {
+		//	Text txtAmmo = GameObject.Find("UI/AmmoCounter").GetComponent<Text>();
+		//	txtAmmo.text = "Ammo: " + this.equipment.GetAmmoCount();
+		//}
 	}
 
 	void MoveControl() {
@@ -61,8 +62,7 @@ public class PlayerController : Entity {
 	void JumpControl() {
 		bool isGrounded = Physics.CheckSphere(transform.position - playerCollider.bounds.extents.y * Vector3.up, 0.2f, this.groundLayer, QueryTriggerInteraction.Ignore);
 
-		if (Input.GetButtonDown("Jump") && isGrounded)
-        {
+		if (Input.GetButtonDown("Jump") && isGrounded) {
             playerBody.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
         }
 

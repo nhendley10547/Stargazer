@@ -11,38 +11,30 @@ public class LasBolt: MonoBehaviour
     private Rigidbody bulletBody;
     private Vector3 originalPosition;
 
-    void Start()
-    {
+    void Start() {
         bulletBody = GetComponent<Rigidbody>();
     }
 
-    public void Init(Vector3 direction, float speed, float range)
-    {
+    public void Init(Vector3 direction, float speed, float range) {
         this.speed = speed;
         this.velocity = this.speed * direction;
         this.originalPosition = transform.position;
         this.range = range;
     }
 
-    void FixedUpdate()
-    {
-        if (Vector3.Distance(this.originalPosition, transform.position) < range)
-        {
+    void FixedUpdate() {
+        if (Vector3.Distance(this.originalPosition, transform.position) < range) {
             bulletBody.MovePosition(bulletBody.position + this.velocity * Time.fixedDeltaTime);
         }
-        else
-        {
+        else {
             Destroy(this.gameObject);
         }
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Entity" || other.tag == "Player")
-        {
+    void OnTriggerEnter(Collider other) {
+        if (other.tag == "Entity" || other.tag == "Player") {
             Health health = other.GetComponent<Health>();
-            if (health != null)
-            {
+            if (health != null) {
                 health.ChangeHealthBy(5);
             }
         }
