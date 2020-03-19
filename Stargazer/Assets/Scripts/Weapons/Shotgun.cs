@@ -18,8 +18,8 @@ public class Shotgun : Equipment {
     public override void OnActivate() {
             if (currentAmmo >= 0) {
                 if (this.currentReloadTime <= 0) {
-                Text txtAmmo = GameObject.Find("UI/AmmoCounter").GetComponent<Text>();
-                txtAmmo.text = "Ammo: " + currentAmmo + "/" + MAX_AMMO;
+                //Text txtAmmo = GameObject.Find("UI/AmmoCounter").GetComponent<Text>();
+                //txtAmmo.text = "Ammo: " + currentAmmo + "/" + MAX_AMMO;
 
                 for (int i = 0; i < bulletClone.Length; i++) {
                     int rnd1 = Random.Range(-5, 5);

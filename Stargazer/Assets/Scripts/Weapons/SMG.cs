@@ -18,8 +18,8 @@ public class SMG : Equipment {
             int RND2 = Random.Range(-2, 2);
 
             if (this.currentReloadTime <= 0) {
-                Text txtAmmo = GameObject.Find("UI/AmmoCounter").GetComponent<Text>();
-                txtAmmo.text = "Ammo: " + currentAmmo + "/" + MAX_AMMO;
+                //Text txtAmmo = GameObject.Find("UI/AmmoCounter").GetComponent<Text>();
+                //txtAmmo.text = "Ammo: " + currentAmmo + "/" + MAX_AMMO;
 
                 Vector3 bulletDirection = Calculate.DirectionFromAngle(this.transform.eulerAngles + new Vector3(RND, RND2, 0));
                 Vector3 position = this.transform.GetChild(0).position + bulletDirection * .2f;
