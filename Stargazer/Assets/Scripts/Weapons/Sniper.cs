@@ -18,7 +18,7 @@ public class Sniper : Equipment {
         if (this.currentAmmoCount > 0) {
             if (this.currentReloadTime <= 0) {
 
-                Vector3 bulletDirection = Calculate.HeadingBasedDirection(this.transform.position, this.transform.eulerAngles);
+                Vector3 bulletDirection = Calculate.DirectionFromAngle(this.transform.eulerAngles);
                 Vector3 position = this.transform.GetChild(0).position + bulletDirection * .2f;
 
                 GameObject bulletClone = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
