@@ -6,6 +6,7 @@ public abstract class Equipment : MonoBehaviour {
 
     protected int currentAmmoCount = 10;
     protected int maxAmmoCount = 10;
+    public string id;
 
     public abstract void OnActivate();
 

@@ -16,6 +16,7 @@ public class Shotgun : Equipment {
     void Start() {
         this.maxAmmoCount = 10;
         this.currentAmmoCount = this.maxAmmoCount;
+        this.id = "Shotgun";
     }
 
     public override void OnActivate() {

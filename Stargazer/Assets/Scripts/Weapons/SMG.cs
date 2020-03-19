@@ -12,6 +12,7 @@ public class SMG : Equipment {
     void Start() {
         this.maxAmmoCount = 100;
         this.currentAmmoCount = this.maxAmmoCount;
+        this.id = "SMG";
     }
 
     public override void OnActivate() {
