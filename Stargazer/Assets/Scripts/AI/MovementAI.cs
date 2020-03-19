@@ -3,16 +3,14 @@ using UnityEngine;
 
 public class MovementAI : MonoBehaviour {
 
-	public float turnSpeed = 3;
-	public float turnDst = 1;
+	public float turnDistance = 1;
+    public float maxAvoidForce = 10.0f;
 	const float pathUpdateMoveThreshold = 1f;
 	const float minPathUpdateTime = 3f;
-	public float stoppingDst = 0;
 	private Vector3 targetPosition;
 	private Entity parent;
 
 	private bool isUpdatePathStarted;
-
 	Path path;
 
 	void Start()
@@ -23,7 +21,7 @@ public class MovementAI : MonoBehaviour {
 
 	public void OnPathFound(Vector3[] waypoints, bool success) {
 		if (success) {
-			this.path = new Path(waypoints, transform.position, turnDst, stoppingDst);
+			this.path = new Path(waypoints, transform.position, turnDistance);
 			StopCoroutine("FollowPath");
 			StartCoroutine("FollowPath");
 		}
@@ -42,7 +40,7 @@ public class MovementAI : MonoBehaviour {
 		if (isUpdatePathStarted) {
 			StopAllCoroutines();
 			isUpdatePathStarted = false;
-			parent.velocity = Vector3.zero;
+			parent.currentSpeed = 0.0f;
 		}
 	}
 
@@ -69,15 +67,13 @@ public class MovementAI : MonoBehaviour {
 		bool followingPath = true;
 		int pathIndex = 0;
 		//transform.LookAt(path.lookPoints[0]);
-
-		float speedPercent = 1;
-
+		
 		while (followingPath) {
 			Vector2 pos2D = new Vector2(transform.position.x, transform.position.z);
 			while (path.turnBoundaries[pathIndex].HasCrossedLine(pos2D)) {
 				if (pathIndex == path.finishLineIndex) {
 					followingPath = false;
-					parent.velocity = Vector3.zero;
+					parent.currentSpeed = 0.0f;
 					break;
 				} else {
 					pathIndex++;
@@ -85,27 +81,32 @@ public class MovementAI : MonoBehaviour {
 			}
 
 			if (followingPath) {
-				if (pathIndex >= path.slowDownIndex && stoppingDst > 0) {
-					speedPercent = path.turnBoundaries[path.finishLineIndex].DistanceFromPoint(pos2D) / stoppingDst;
-					if (speedPercent < 0.01f) {
-						followingPath = false;
-						parent.velocity = Vector3.zero;
-					}
-				}
-				Quaternion targetRotation = Quaternion.LookRotation(path.lookPoints[pathIndex] - transform.position);
-				Quaternion rot = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * turnSpeed);
-				parent.direction = Vector3.up * rot.eulerAngles.y;
-				parent.velocity = Vector3.forward;
+
+				Vector3 targetPosition = path.lookPoints[pathIndex];
+				Vector2 velocity2D = SteeringBehavior.GetVelocity(new Vector2(targetPosition.x, targetPosition.z), 
+											transform.position, new Vector2(parent.velocity.x, parent.velocity.z), 
+											parent.maxSpeed, parent.turnSpeed, maxAvoidForce);
+				parent.currentSpeed = velocity2D.magnitude;
+				velocity2D.Normalize();
+
+				Quaternion currentRotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(new Vector3(velocity2D.x, 0, velocity2D.y)), Time.deltaTime * parent.currentSpeed);
+
+				parent.direction = currentRotation.eulerAngles;
+
+				//sin == x and cos == y ??? they are flipped but works somehow. 
+				float dx = Mathf.Sin(parent.direction.y * Mathf.Deg2Rad);
+				float dy = Mathf.Cos(parent.direction.y * Mathf.Deg2Rad);
+
+				parent.velocity = parent.currentSpeed * new Vector3(dx, 0, dy);
 			}
 
 			yield return null;
 		}
 	}
 
-	
 	// public void OnDrawGizmos() {
 	// 	if (path != null) {
-	// 		//path.DrawWithGizmos ();
+	// 		path.DrawWithGizmos ();
 	// 	}
 	// }
 }

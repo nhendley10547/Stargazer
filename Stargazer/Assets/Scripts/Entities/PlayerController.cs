@@ -6,9 +6,7 @@ public class PlayerController : Entity {
 	private Collider playerCollider;
 	private Rigidbody playerBody;
 
-    private float speed = 5.0f;
 	private float jumpHeight = 2.0f;
-	private float mouseSensitivity = 200.0f;
 	private float yRotation = 0.0f;
 
 	private EquipAction equipAction;
@@ -21,6 +19,7 @@ public class PlayerController : Entity {
 		playerBody = GetComponent<Rigidbody>();
 		playerCollider = GetComponent<Collider>();
         equipAction = GetComponent<EquipAction>();
+		this.currentSpeed = this.maxSpeed;
 
         if (weaponPrefab != null)
         {
@@ -39,6 +38,7 @@ public class PlayerController : Entity {
 
 	void FixedUpdate() {
 		playerBody.MovePosition(playerBody.position + this.velocity * Time.deltaTime);
+	//	print("Velocity: " + this.velocity * Time.deltaTime);
 		position = playerView.transform.position;
 	}
 
@@ -49,7 +49,7 @@ public class PlayerController : Entity {
 			float facingDirection = Mathf.Deg2Rad * transform.eulerAngles.y;
 			float moveDirection = inputDirection - (Mathf.PI / 2) + facingDirection;
 			Vector3 direction = new Vector3(Mathf.Sin(moveDirection), 0.0f, Mathf.Cos(moveDirection));
-			this.velocity = direction * speed;
+			this.velocity = direction * currentSpeed;
 		} else {
 			this.velocity = Vector3.zero;
 		}
@@ -64,10 +64,10 @@ public class PlayerController : Entity {
         }
 
         if (!isGrounded) {
-            speed = 8;
+            currentSpeed = this.maxSpeed * .7f;
         }
         else {
-            speed = 5;
+            currentSpeed = this.maxSpeed;
         }
 	}
 
@@ -84,8 +84,6 @@ public class PlayerController : Entity {
 						this.equipAction.OnDrop(this.equipment);
 					}
 
-					print("Name: " + hitInfo.transform.name);
-
 					this.equipAction.OnEquip(item, playerView.transform);
 				}
 			} else if (!Physics.Raycast(ray, out hitInfo, 3) && this.equipment != null) {
@@ -99,8 +97,8 @@ public class PlayerController : Entity {
 	}
 
 	void RotatePerspective() {
-		float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-		float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
+		float mouseX = Input.GetAxis("Mouse X") * this.turnSpeed * 20 * Time.deltaTime;
+		float mouseY = Input.GetAxis("Mouse Y") * this.turnSpeed * 20 * Time.deltaTime;
 
 		yRotation = Mathf.Clamp(yRotation - mouseY, -90f, 60f);
 
