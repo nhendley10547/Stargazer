@@ -12,6 +12,7 @@ public class Revolver : Equipment {
     void Start() {
         this.maxAmmoCount = 20;
         this.currentAmmoCount = this.maxAmmoCount;
+        this.id = "Revolver";
     }
 
     public override void OnActivate() {
