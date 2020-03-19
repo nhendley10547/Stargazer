@@ -44,6 +44,8 @@ public class PlayerController : Entity {
 		//	Text txtAmmo = GameObject.Find("UI/AmmoCounter").GetComponent<Text>();
 		//	txtAmmo.text = "Ammo: " + this.equipment.GetAmmoCount();
 		//}
+
+
 	}
 
 	void MoveControl() {
