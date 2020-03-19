@@ -21,7 +21,7 @@ public class SMG : Equipment {
                 Text txtAmmo = GameObject.Find("UI/AmmoCounter").GetComponent<Text>();
                 txtAmmo.text = "Ammo: " + currentAmmo + "/" + MAX_AMMO;
 
-                Vector3 bulletDirection = Calculate.HeadingBasedDirection(this.transform.position, this.transform.eulerAngles + new Vector3(RND, RND2, 0));
+                Vector3 bulletDirection = Calculate.DirectionFromAngle(this.transform.eulerAngles + new Vector3(RND, RND2, 0));
                 Vector3 position = this.transform.GetChild(0).position + bulletDirection * .2f;
 
                 GameObject bulletClone = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;

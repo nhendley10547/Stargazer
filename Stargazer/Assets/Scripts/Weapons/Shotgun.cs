@@ -24,7 +24,7 @@ public class Shotgun : Equipment {
                 for (int i = 0; i < bulletClone.Length; i++) {
                     int rnd1 = Random.Range(-5, 5);
                     int rnd2 = Random.Range(-5, 5);
-                    Vector3 bulletDirection = Calculate.HeadingBasedDirection(this.transform.position, this.transform.eulerAngles + new Vector3(rnd1, rnd2, 0));
+                    Vector3 bulletDirection = Calculate.DirectionFromAngle(this.transform.eulerAngles + new Vector3(rnd1, rnd2, 0));
                     position[i] = this.transform.GetChild(0).position + bulletDirection * (.1f * i);
                     bulletClone[i] = Instantiate(bulletPrefab, position[i], this.transform.rotation) as GameObject;
                     bulletClone[i].transform.localScale = new Vector3(.05f, .05f, .05f);

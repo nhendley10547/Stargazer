@@ -15,10 +15,8 @@ public class MonsterAI : Entity {
 	private bool targetInShootingRange;
 	private bool targetCanBeSeen;
 
-	public int detectionRange = 80;
-	public int shootingRange = 60;
-
-	public float speed = 20f;
+	public int detectionRange = 50;
+	public int shootingRange = 20;
 
 	private MovementAI movementAI;
 
@@ -27,7 +25,7 @@ public class MonsterAI : Entity {
 		centerTransform.rotation = transform.rotation;
 		this.direction = this.transform.eulerAngles;
 		this.position = this.transform.position;
-		this.velocity = Vector3.zero;
+		this.currentSpeed = 0.0f;
 
 		targetDetected = targetCanBeSeen = targetInLineOfSight = targetInShootingRange = false;
 
@@ -38,41 +36,33 @@ public class MonsterAI : Entity {
 	}
 
 	void CheckStatus() {
-		RaycastHit hitInfo;
 
-		//Sends a raycast to determine if the player can be seen.
 		Vector3 dir =  targetRef.position - centerTransform.position;
-		
+		RaycastHit hitInfoCenter;
+		float distApart = .3f;
 		float x;
 		float z;
 		float radians = Mathf.Atan2(dir.z, dir.x);
 
-		RaycastHit hitRayLeft;
-		// Quaternion spreadAngleLeft = Quaternion.AngleAxis(-1, Vector3.up);
-		// Vector3 angleLeft = spreadAngleLeft * dir;
-		x = .3f * Mathf.Cos(radians + Mathf.PI / 2);
-		z = .3f * Mathf.Sin(radians + Mathf.PI / 2);
-		Ray raySpreadLeft = new Ray (centerTransform.position + new Vector3(x, 0, z), dir);
-		bool left = Physics.Raycast(raySpreadLeft, out hitRayLeft);
-		// Debug.DrawLine(centerTransform.position + new Vector3(x, 0, z), hitRayLeft.point, Color.blue);
+		RaycastHit hitInfoLeft;
+		x = distApart * Mathf.Cos(radians + Mathf.PI / 2);
+		z = distApart * Mathf.Sin(radians + Mathf.PI / 2);
+		Ray raySpreadLeft = new Ray (position + new Vector3(x, 0, z), dir);
+		bool left = Physics.Raycast(raySpreadLeft, out hitInfoLeft);
 
-		RaycastHit hitRayRight;
-		// Quaternion spreadAngleRight = Quaternion.AngleAxis(1, Vector3.up);
-		// Vector3 angleRight = spreadAngleRight * dir;
-		x = .3f * Mathf.Cos(radians - Mathf.PI / 2);
-		z = .3f * Mathf.Sin(radians - Mathf.PI / 2);
-		Ray raySpreadRight = new Ray (centerTransform.position + new Vector3(x, 0, z), dir);
-		bool right = Physics.Raycast(raySpreadRight, out hitRayRight);
-		// Debug.DrawLine(centerTransform.position + new Vector3(x, 0, z), hitRayRight.point, Color.blue);
+		RaycastHit hitInfoRight;
+		x = distApart * Mathf.Cos(radians - Mathf.PI / 2);
+		z = distApart * Mathf.Sin(radians - Mathf.PI / 2);
+		Ray raySpreadRight = new Ray (position + new Vector3(x, 0, z), dir);
+		bool right = Physics.Raycast(raySpreadRight, out hitInfoRight);
 
-		Ray rayCanBeSeen = new Ray(centerTransform.position, dir);
-		bool center = Physics.Raycast(rayCanBeSeen, out hitInfo);
-		// Debug.DrawLine(centerTransform.position, hitInfo.point, Color.green);
+		Ray rayCanBeSeen = new Ray(position, dir);
+		bool center = Physics.Raycast(rayCanBeSeen, out hitInfoCenter);
 
-		if (left && right && center) {
-			if (hitInfo.transform.tag == "Player" && 
-				hitRayLeft.transform.tag == "Player" && 
-				hitRayRight.transform.tag == "Player") {
+		if (left &&right && center) {
+			if (hitInfoCenter.transform.tag == "Player" && 
+				hitInfoLeft.transform.tag == "Player" && 
+				hitInfoRight.transform.tag == "Player") {
 				targetCanBeSeen = true;
 			} else {
 				targetCanBeSeen = false;
@@ -85,8 +75,8 @@ public class MonsterAI : Entity {
 		//Sends a raycast to determine if the player is infront of the enemy.
 		Ray rayLineOfSight = new Ray(centerTransform.position, centerTransform.forward);
 
-		if (Physics.Raycast(rayLineOfSight, out hitInfo)) { 
-			if (hitInfo.transform.tag == "Player") {
+		if (Physics.Raycast(rayLineOfSight, out hitInfoCenter)) { 
+			if (hitInfoCenter.transform.tag == "Player") {
 				targetInLineOfSight = true;
 				} else {
 				targetInLineOfSight = false;
@@ -127,7 +117,7 @@ public class MonsterAI : Entity {
 			if (targetCanBeSeen && targetInShootingRange) {
 				Quaternion q = Quaternion.LookRotation(targetRef.position - centerTransform.position);
 
-				centerTransform.rotation = Quaternion.Slerp(centerTransform.rotation, q, 5 * Time.deltaTime);
+				centerTransform.rotation = Quaternion.Slerp(centerTransform.rotation, q, this.turnSpeed * Time.deltaTime);
 			}
 		}
 	}
@@ -140,12 +130,12 @@ public class MonsterAI : Entity {
 	}
 
 	private void FixedUpdate() {	
-		if (this.velocity != Vector3.zero) {
-			transform.Translate(this.velocity * this.speed * Time.fixedDeltaTime);
+		if (this.currentSpeed != 0.0f) {
+			transform.Translate(Vector3.forward * this.currentSpeed * Time.fixedDeltaTime);
 			this.position = transform.position;
-			transform.eulerAngles = this.direction;
-			centerTransform.rotation = Quaternion.Slerp(centerTransform.rotation, transform.rotation, 5*Time.deltaTime);
+			centerTransform.rotation = Quaternion.Slerp(centerTransform.rotation, transform.rotation, this.turnSpeed * Time.deltaTime);
 		}
+		transform.eulerAngles = this.direction;
 	}
 
 }

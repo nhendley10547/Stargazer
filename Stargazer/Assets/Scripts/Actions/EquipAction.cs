@@ -12,8 +12,6 @@ public class EquipAction : MonoBehaviour {
 
 	void Awake() {
 		ownerEntity = GetComponent<Entity>();
-
-       
     }
 
 	public void OnEquip(Equipment item, Transform transform) {
@@ -26,14 +24,14 @@ public class EquipAction : MonoBehaviour {
         body.useGravity = false;
         body.detectCollisions = false;
 
-        item.transform.localPosition = Calculate.DirectionBasedPosition(Vector3.zero, this.transform.forward + Vector3.right * this.holdingAngle, this.holdingDistance);
+        item.transform.localPosition = Calculate.PositionFromAngle(Vector3.zero, this.transform.forward + Vector3.right * this.holdingAngle, this.holdingDistance);
         item.transform.eulerAngles = this.ownerEntity.direction;
         item.transform.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 	}
 
 	public void OnDrop(Equipment item) {
         Vector3 dropDirection = new Vector3(0, this.ownerEntity.direction.y, 0);
-        item.transform.position = Calculate.DirectionBasedPosition(this.ownerEntity.position, dropDirection, this.droppingDistance);
+        item.transform.position = Calculate.PositionFromAngle(this.ownerEntity.position, dropDirection, this.droppingDistance);
         item.transform.gameObject.layer = LayerMask.NameToLayer("Item");
 
         Rigidbody body = item.GetComponent<Rigidbody>();
