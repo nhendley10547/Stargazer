@@ -6,14 +6,19 @@ using UnityEngine.UI;
 public class PlayerUI : MonoBehaviour {
 
 	public Entity player;
+	public Health playerHealth;
+	public Inventory playerInventory;
 
 	private Text txtAmmo;
 	private Text txtHealth;
-	public Health playerHealth;
+	private Text txtInventory;
+
+	private string inventoryDisp = "";
 
 	public void Start () {
-		txtAmmo = GameObject.Find("UI/AmmoCounter").GetComponent<Text>();
-		txtHealth = GameObject.Find("UI/HealthCounter").GetComponent<Text>();
+		txtAmmo = GameObject.Find("PlayerUI/AmmoCounter").GetComponent<Text>();
+		txtInventory = GameObject.Find("PlayerUI/Inventory").GetComponent<Text>();
+		txtHealth = GameObject.Find("PlayerUI/HealthCounter").GetComponent<Text>();
 	}
 
 	public void Ammo () {
@@ -26,11 +31,26 @@ public class PlayerUI : MonoBehaviour {
 	}
 
 	public void Health () {
-		txtHealth.text = "Health: " + playerHealth.entityHealth;
+		if (playerHealth != null) {
+			txtHealth.text = "Health: " + playerHealth.entityHealth;
+		}
+	}
+
+	public void Inventory() {
+		if (playerInventory != null && playerInventory.isUpdateSyncUI) {
+			inventoryDisp = "";
+			for (int i = 0; i < playerInventory.maxItems; i++) {
+				if (playerInventory.items[i] != null)
+					inventoryDisp += i + 1 + ": " + playerInventory.items[i].GetComponent<Equipment>().id + " | "; 
+			}
+			playerInventory.isUpdateSyncUI = false;
+		}
+		txtInventory.text = "Inventory: " + inventoryDisp;
 	}
 
 	public void Update () {
 		Ammo();
 		Health();
+		Inventory();
 	}
 }

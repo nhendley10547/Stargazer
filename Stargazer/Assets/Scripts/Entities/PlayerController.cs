@@ -11,15 +11,19 @@ public class PlayerController : Entity {
 	private float yRotation = 0.0f;
 
 	private EquipAction equipAction;
+	private Inventory inventory;
 	public GameObject weaponPrefab;
 
 	void Start() {
 		playerView.enabled = true;
 		playerView.transform.position = transform.position + Vector3.up * .5f;
 		playerView.transform.eulerAngles = this.direction = transform.eulerAngles;
+
 		playerBody = GetComponent<Rigidbody>();
 		playerCollider = GetComponent<Collider>();
         equipAction = GetComponent<EquipAction>();
+		inventory = GetComponent<Inventory>();
+
 		this.currentSpeed = this.maxSpeed;
 
         if (weaponPrefab != null) {
@@ -34,18 +38,12 @@ public class PlayerController : Entity {
 		this.JumpControl();
 		this.RotatePerspective();
 		this.InteractionControl();
+		this.InventoryControl();
 	}
 
 	void FixedUpdate() {
 		playerBody.MovePosition(playerBody.position + this.velocity * Time.deltaTime);
-	//	print("Velocity: " + this.velocity * Time.deltaTime);
 		position = playerView.transform.position;
-		//if (this.equipment != null) {
-		//	Text txtAmmo = GameObject.Find("UI/AmmoCounter").GetComponent<Text>();
-		//	txtAmmo.text = "Ammo: " + this.equipment.GetAmmoCount();
-		//}
-
-
 	}
 
 	void MoveControl() {
@@ -85,11 +83,13 @@ public class PlayerController : Entity {
 			if (Physics.Raycast(ray, out hitInfo, 5, LayerMask.NameToLayer("Item"))) {
 				if (hitInfo.transform.tag == "Equipment" ) {
 					Equipment item = hitInfo.transform.GetComponent<Equipment>();
-					if (this.equipment != null) {
-						this.equipAction.OnDrop(this.equipment);
-					}
+					if (inventory == null || this.equipment == null || !inventory.Store(hitInfo.transform.gameObject)) {
+						if (this.equipment != null) {
+							this.equipAction.OnDrop(this.equipment);
+						}
 
-					this.equipAction.OnEquip(item, playerView.transform);
+						this.equipAction.OnEquip(item, playerView.transform);
+					}
 				}
 			} else if (!Physics.Raycast(ray, out hitInfo, 3) && this.equipment != null) {
 				this.equipAction.OnDrop(this.equipment);
@@ -98,6 +98,24 @@ public class PlayerController : Entity {
 
 		if (Input.GetMouseButton(0) && this.equipment != null) {
 			this.equipment.OnActivate();
+		}
+	}
+
+	void InventoryControl() {
+		if (inventory != null) {
+			for (int i = 1; i < inventory.maxItems + 1; i++) {
+				if (Input.GetKeyDown("" + i)) {
+					GameObject item = inventory.GetItem(i - 1);
+					if (item != null) {
+						if (this.equipment != null) {
+							Equipment itemToStore = this.equipment;
+							this.equipAction.OnDrop(this.equipment);
+							inventory.Store(itemToStore.gameObject);
+						}
+						this.equipAction.OnEquip(item.GetComponent<Equipment>(), playerView.transform);
+					}
+				}
+			}
 		}
 	}
 
