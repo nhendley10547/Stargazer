@@ -10,16 +10,18 @@ public class Shotgun : Equipment {
     private const float MAX_RELOAD_TIME = 2.5f;
     private const float BULLET_SPEED = 12.0f;
     private const float BULLET_RANGE = 100.0f;
-    private const float MAX_AMMO = 10;
-    private float currentAmmo = 9;
     Vector3[] position = new Vector3[10];
     GameObject[] bulletClone = new GameObject[10];
-    
+
+    void Start() {
+        this.maxAmmoCount = 10;
+        this.currentAmmoCount = this.maxAmmoCount;
+        this.id = "Shotgun";
+    }
+
     public override void OnActivate() {
-            if (currentAmmo >= 0) {
+            if (this.currentAmmoCount > 0) {
                 if (this.currentReloadTime <= 0) {
-                //Text txtAmmo = GameObject.Find("UI/AmmoCounter").GetComponent<Text>();
-                //txtAmmo.text = "Ammo: " + currentAmmo + "/" + MAX_AMMO;
 
                 for (int i = 0; i < bulletClone.Length; i++) {
                     int rnd1 = Random.Range(-5, 5);
@@ -40,7 +42,7 @@ public class Shotgun : Equipment {
                     shotsFired = 0;
                 }
 
-                currentAmmo--;
+                this.currentAmmoCount--;
             }
         }
     }

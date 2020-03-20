@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : Entity {
 
@@ -21,8 +22,7 @@ public class PlayerController : Entity {
         equipAction = GetComponent<EquipAction>();
 		this.currentSpeed = this.maxSpeed;
 
-        if (weaponPrefab != null)
-        {
+        if (weaponPrefab != null) {
             Equipment weapon = Instantiate(weaponPrefab, Vector3.zero, Quaternion.Euler(0, 0, 0)).GetComponent<Equipment>();
             equipAction.OnEquip(weapon, playerView.transform);
         }
@@ -40,6 +40,12 @@ public class PlayerController : Entity {
 		playerBody.MovePosition(playerBody.position + this.velocity * Time.deltaTime);
 	//	print("Velocity: " + this.velocity * Time.deltaTime);
 		position = playerView.transform.position;
+		//if (this.equipment != null) {
+		//	Text txtAmmo = GameObject.Find("UI/AmmoCounter").GetComponent<Text>();
+		//	txtAmmo.text = "Ammo: " + this.equipment.GetAmmoCount();
+		//}
+
+
 	}
 
 	void MoveControl() {
@@ -58,8 +64,7 @@ public class PlayerController : Entity {
 	void JumpControl() {
 		bool isGrounded = Physics.CheckSphere(transform.position - playerCollider.bounds.extents.y * Vector3.up, 0.2f, this.groundLayer, QueryTriggerInteraction.Ignore);
 
-		if (Input.GetButtonDown("Jump") && isGrounded)
-        {
+		if (Input.GetButtonDown("Jump") && isGrounded) {
             playerBody.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
         }
 

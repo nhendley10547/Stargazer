@@ -8,14 +8,16 @@ public class Rifle : Equipment {
     private const float MAX_RELOAD_TIME = .1f;
     private const float BULLET_SPEED = 20.0f;
     private const float BULLET_RANGE = 100.0f;
-    private const float MAX_AMMO = 50;
-    private float currentAmmo = 49;
+
+    void Start() {
+        this.maxAmmoCount = 50;
+        this.currentAmmoCount = this.maxAmmoCount;
+        this.id = "Rifle";
+    }
 
     public override void OnActivate() {
-        if (currentAmmo >= 0) {
+        if (this.currentAmmoCount > 0) {
             if (this.currentReloadTime <= 0) {
-                //Text txtAmmo = GameObject.Find("UI/AmmoCounter").GetComponent<Text>();
-                //txtAmmo.text = "Ammo: " + currentAmmo + "/" + MAX_AMMO;
 
                 Vector3 bulletDirection = Calculate.DirectionFromAngle(this.transform.eulerAngles);
                 Vector3 position = this.transform.GetChild(0).position + bulletDirection * .2f;
@@ -25,7 +27,7 @@ public class Rifle : Equipment {
                 bulletClone.GetComponent<LasBolt>().Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
 
                 this.currentReloadTime = MAX_RELOAD_TIME;
-                currentAmmo--;
+                this.currentAmmoCount--;
             }
         }
     }
