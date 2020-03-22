@@ -19,7 +19,7 @@ class SteeringBehavior {
 
         Vector2 avoidForce = Vector2.zero;
         
-        //Debug.DrawRay(currentPos, new Vector3(dir2D.x, 0, dir2D.y) * distAhead * 5, Color.red);
+        Debug.DrawRay(currentPos, new Vector3(dir2D.x, 0, dir2D.y) * distAhead * 5, Color.red);
         if (Physics.Raycast(currentPos, new Vector3(dir2D.x, 0, dir2D.y), out hitInfo, distAhead * 5)) {
             if (hitInfo.transform.tag == "Entity") {
                 avoidForce.x = ahead.x - hitInfo.transform.position.x;

@@ -38,6 +38,6 @@ public class Bullet : MonoBehaviour {
 				health.ChangeHealthBy(damageValue);
 			}
 		}
-		Destroy(this.gameObject);
+		if (other.tag != "Equipment") Destroy(this.gameObject);
 	}
 }

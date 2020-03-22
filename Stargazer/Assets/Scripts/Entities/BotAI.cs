@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class MonsterAI : Entity {
+public class BotAI : Entity {
 
-	public int maxHealth = 10;
 	public GameObject weaponPrefab;
 	private Transform centerTransform;
 
@@ -13,8 +14,8 @@ public class MonsterAI : Entity {
 	private bool targetInShootingRange;
 	private bool targetCanBeSeen;
 
-	public int detectionRange = 50;
-	public int shootingRange = 20;
+	public int detectionRange = 60;
+	public int shootingRange = 80;
 
 	private MovementAI movementAI;
 
@@ -28,7 +29,6 @@ public class MonsterAI : Entity {
 		targetDetected = targetCanBeSeen = targetInLineOfSight = targetInShootingRange = false;
 
 		movementAI = GetComponent<MovementAI>();
-		GetComponent<Health>().SetHealth(maxHealth);
 		Equipment weapon = Instantiate(weaponPrefab, Vector3.zero, Quaternion.Euler(0,0,0)).GetComponent<Equipment>();
 		GetComponent<EquipAction>().OnEquip(weapon, this.centerTransform);
 	}
@@ -116,7 +116,10 @@ public class MonsterAI : Entity {
 			if (targetCanBeSeen && targetInShootingRange) {
 				Quaternion q = Quaternion.LookRotation(targetRef.position - centerTransform.position);
 
-				centerTransform.rotation = Quaternion.Slerp(centerTransform.rotation, q, this.turnSpeed * Time.deltaTime);
+				Quaternion rot = Quaternion.Slerp(centerTransform.rotation, q, this.turnSpeed * Time.deltaTime);
+
+				this.direction = new Vector3(0, rot.eulerAngles.y, 0);
+				centerTransform.eulerAngles = new Vector3(rot.eulerAngles.x, centerTransform.eulerAngles.y, rot.eulerAngles.z);
 			}
 		}
 	}
@@ -133,8 +136,8 @@ public class MonsterAI : Entity {
 			transform.Translate(Vector3.forward * this.currentSpeed * Time.fixedDeltaTime);
 			this.position = transform.position;
 			centerTransform.rotation = Quaternion.Slerp(centerTransform.rotation, transform.rotation, this.turnSpeed * Time.deltaTime);
-		}
+		} 
+		
 		transform.eulerAngles = this.direction;
 	}
-
 }
