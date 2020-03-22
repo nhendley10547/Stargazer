@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public abstract class Equipment : MonoBehaviour {
     
@@ -6,6 +7,7 @@ public abstract class Equipment : MonoBehaviour {
 
     protected int currentAmmoCount = 10;
     protected int maxAmmoCount = 10;
+    [NonSerialized]
     public string id;
 
     public abstract void OnActivate();

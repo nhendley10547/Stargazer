@@ -12,9 +12,6 @@ public class Health : MonoBehaviour {
 
 	public void ChangeHealthBy(int healthValue) {
 		this.entityHealth -= healthValue;
-	}
-
-	void Update () {
 		if (this.entityHealth <= 0) {
 			this.gameObject.GetComponent<Entity>().Death();
 		}
