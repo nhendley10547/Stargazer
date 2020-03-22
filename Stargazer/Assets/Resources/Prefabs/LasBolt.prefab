@@ -123,3 +123,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0f97d64f52b86e4686cbc8e2c3b78b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageValue: 3
+  initParticle: {fileID: 1156268000309306, guid: 24b5830b9254b0d42b74d178ba17b3af,
+    type: 2}
+  destroyParticle: {fileID: 1627691104547190, guid: b561a4527d3c815478647bd40a5096aa,
+    type: 2}

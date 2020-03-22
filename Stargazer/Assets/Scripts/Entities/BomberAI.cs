@@ -80,7 +80,12 @@ public class BomberAI : Entity {
 	}
 
 	void Explode() {
-		Instantiate(explosion, transform.position, transform.rotation);
+		
+		GameObject explode = Instantiate(explosion, transform.position, transform.rotation) as GameObject;
+		ParticleSystem parts = explode.GetComponent<ParticleSystem>();
+		float totalDuration = parts.main.duration + parts.main.startLifetime.constant;
+		Destroy(explode, totalDuration);
+
 		Collider[] colliders = Physics.OverlapSphere(transform.position, explosiveRadius);
 		for (int i = 0; i < colliders.Length; i++) {
 			Transform otherTransform = colliders[i].transform;
@@ -96,7 +101,12 @@ public class BomberAI : Entity {
 				health.ChangeHealthBy(damage);
 			}
 		}
-		this.Death();
+
+		Destroy(this.gameObject);
+	}
+
+	public override void Death() {
+		Explode();
 	}
 
 	void AIBehavior() {
@@ -112,7 +122,7 @@ public class BomberAI : Entity {
 
 			if (commitT)
 			{
-				Explode();
+				Death();
 			}
 		}
 	}
