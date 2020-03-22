@@ -6,6 +6,7 @@ public class BotAI : Entity {
 
 	public GameObject weaponPrefab;
 	private Transform centerTransform;
+	public GameObject deathExplosion;
 
 	[SerializeField]
 	private Transform targetRef;
@@ -122,6 +123,16 @@ public class BotAI : Entity {
 				centerTransform.eulerAngles = new Vector3(rot.eulerAngles.x, centerTransform.eulerAngles.y, rot.eulerAngles.z);
 			}
 		}
+	}
+
+	public override void Death() {
+		GameObject explode = Instantiate(deathExplosion, transform.position, transform.rotation) as GameObject;
+		explode.transform.localScale = Vector3.one * 2;
+		ParticleSystem parts = explode.GetComponent<ParticleSystem>();
+		float totalDuration = parts.main.duration + parts.main.startLifetime.constant;
+		Destroy(explode, totalDuration);
+
+		Destroy(this.gameObject);
 	}
 
 	void Update() {
