@@ -42,8 +42,10 @@ public class PlayerController : Entity {
 	}
 
 	void FixedUpdate() {
-		playerBody.MovePosition(playerBody.position + this.velocity * Time.deltaTime);
-		position = playerView.transform.position;
+		if (this.velocity != Vector3.zero) {
+			playerBody.MovePosition(playerBody.position + this.velocity * Time.deltaTime);
+			position = playerView.transform.position;
+		}
 	}
 
 	void MoveControl() {

@@ -1,41 +1,37 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class MonsterAI : Entity {
-
-	public int maxHealth = 10;
-	public GameObject weaponPrefab;
-	private Transform centerTransform;
+public class BomberAI : Entity {
 
 	[SerializeField]
 	private Transform targetRef;
-	private bool targetInLineOfSight;
 	private bool targetDetected;
-	private bool targetInShootingRange;
 	private bool targetCanBeSeen;
+	private bool commitT = false;
 
-	public int detectionRange = 50;
-	public int shootingRange = 20;
+	public GameObject explosion;
+	public float detectionRange = 50;
+	public float explodeRange = 4;
+	public float explosiveRadius = 10;
+	public float explosiveForce = 25;
+	public int damage = 20;
 
 	private MovementAI movementAI;
 
 	void Start () {
-		centerTransform = transform.GetChild(0);
-		centerTransform.rotation = transform.rotation;
 		this.direction = this.transform.eulerAngles;
 		this.position = this.transform.position;
 		this.currentSpeed = 0.0f;
 
-		targetDetected = targetCanBeSeen = targetInLineOfSight = targetInShootingRange = false;
+		targetDetected = targetCanBeSeen = false;
 
 		movementAI = GetComponent<MovementAI>();
-		GetComponent<Health>().SetHealth(maxHealth);
-		Equipment weapon = Instantiate(weaponPrefab, Vector3.zero, Quaternion.Euler(0,0,0)).GetComponent<Equipment>();
-		GetComponent<EquipAction>().OnEquip(weapon, this.centerTransform);
 	}
 
 	void CheckStatus() {
 
-		Vector3 dir =  targetRef.position - centerTransform.position;
+		Vector3 dir =  targetRef.position - transform.position;
 		RaycastHit hitInfoCenter;
 		float distApart = .3f;
 		float x;
@@ -69,20 +65,6 @@ public class MonsterAI : Entity {
 			targetCanBeSeen = false;
 		}
 			
-
-		//Sends a raycast to determine if the player is infront of the enemy.
-		Ray rayLineOfSight = new Ray(centerTransform.position, centerTransform.forward);
-
-		if (Physics.Raycast(rayLineOfSight, out hitInfoCenter)) { 
-			if (hitInfoCenter.transform.tag == "Player") {
-				targetInLineOfSight = true;
-				} else {
-				targetInLineOfSight = false;
-			}
-		} else {
-			targetInLineOfSight = false;
-		}
-
 		//if target is within the spotting range then activate target spotted
 		if (Vector3.Distance(targetRef.position, transform.position) >= detectionRange) {
 			targetDetected = false;
@@ -90,33 +72,57 @@ public class MonsterAI : Entity {
 			targetDetected = true;
 		}
 
-		if (Vector3.Distance(targetRef.position, transform.position) >= shootingRange) {
-			targetInShootingRange = false;
+		if (Vector3.Distance(targetRef.position, transform.position) >= explodeRange) {
+			commitT = false;
 		} else {
-			targetInShootingRange = true;
+			commitT = true;
+		} 
+	}
+
+	void Explode() {
+		
+		GameObject explode = Instantiate(explosion, transform.position, transform.rotation) as GameObject;
+		ParticleSystem parts = explode.GetComponent<ParticleSystem>();
+		float totalDuration = parts.main.duration + parts.main.startLifetime.constant;
+		Destroy(explode, totalDuration);
+
+		Collider[] colliders = Physics.OverlapSphere(transform.position, explosiveRadius);
+		for (int i = 0; i < colliders.Length; i++) {
+			Transform otherTransform = colliders[i].transform;
+			if (otherTransform.tag != "Entity" && otherTransform.tag != "Player") continue;
+			if (otherTransform == transform) continue;
+
+			Rigidbody body = otherTransform.GetComponent<Rigidbody>();
+			Health health = otherTransform.GetComponent<Health>();
+			if (body != null) {
+				body.AddExplosionForce(explosiveForce, transform.position, explosiveRadius, 5, ForceMode.Impulse);
+			}
+			if (health != null) {
+				health.ChangeHealthBy(damage);
+			}
 		}
+
+		Destroy(this.gameObject);
+	}
+
+	public override void Death() {
+		Explode();
 	}
 
 	void AIBehavior() {
 		//If target is spotted...
 		if (targetDetected) {
 			if (movementAI != null) {
-				if (!targetInShootingRange || !targetCanBeSeen) {
+				if (!targetCanBeSeen || !commitT) {
 					movementAI.NavigateTo(targetRef.position);
 				} else {
 					movementAI.EndNavigation();
 				}
 			}
 
-			if (targetInLineOfSight)
+			if (commitT)
 			{
-				this.equipment.OnActivate();
-			}
-
-			if (targetCanBeSeen && targetInShootingRange) {
-				Quaternion q = Quaternion.LookRotation(targetRef.position - centerTransform.position);
-
-				centerTransform.rotation = Quaternion.Slerp(centerTransform.rotation, q, this.turnSpeed * Time.deltaTime);
+				Death();
 			}
 		}
 	}
@@ -132,9 +138,8 @@ public class MonsterAI : Entity {
 		if (this.currentSpeed != 0.0f) {
 			transform.Translate(Vector3.forward * this.currentSpeed * Time.fixedDeltaTime);
 			this.position = transform.position;
-			centerTransform.rotation = Quaternion.Slerp(centerTransform.rotation, transform.rotation, this.turnSpeed * Time.deltaTime);
-		}
+		} 
+		
 		transform.eulerAngles = this.direction;
 	}
-
 }
