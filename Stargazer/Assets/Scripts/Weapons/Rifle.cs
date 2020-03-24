@@ -24,10 +24,14 @@ public class Rifle : Equipment {
 
                 GameObject bulletClone = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
                 bulletClone.transform.localScale = new Vector3(0.05f, .05f, .05f);
-                bulletClone.GetComponent<LasBolt>().Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
+                Bullet bullet = bulletClone.GetComponent<Bullet>();
+                bullet.Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
+                bullet.damageValue = 5;
 
                 this.currentReloadTime = MAX_RELOAD_TIME;
-                this.currentAmmoCount--;
+                if (ownerEntity.transform.tag != "Entity") {                  
+                    this.currentAmmoCount--;
+                }
             }
         }
     }

@@ -23,10 +23,15 @@ public class Sniper : Equipment {
                 Vector3 position = this.transform.GetChild(0).position + bulletDirection * .2f;
 
                 GameObject bulletClone = Instantiate(bulletPrefab, position, this.transform.rotation) as GameObject;
-                bulletClone.GetComponent<LasBolt>().Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
+                Bullet bullet = bulletClone.GetComponent<Bullet>();
+                bullet.Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
+                bullet.damageValue = 15;
 
                 this.currentReloadTime = MAX_RELOAD_TIME;
-                this.currentAmmoCount--;
+                if (ownerEntity.transform.tag != "Entity")
+                {
+                    this.currentAmmoCount--;
+                }
             }
         }
     }

@@ -108,8 +108,7 @@ public class MonsterAI : Entity {
 				}
 			}
 
-			if (targetInLineOfSight)
-			{
+			if (targetInLineOfSight) {
 				this.equipment.OnActivate();
 			}
 
