@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+using System;
 
 public class NodeGrid : MonoBehaviour {
 
@@ -72,12 +72,11 @@ public class NodeGrid : MonoBehaviour {
 
 			int blurredWeight = Mathf.RoundToInt((float) weightVerPass[x, 0] / (kernelSize * kernelSize));
 			grid[x, 0].weight = blurredWeight;
-
-			for (int y = 1; y < gridSizeX; y++) {
+			for (int y = 1; y < gridSizeY; y++) {
 				int removeIndex = Mathf.Clamp(y - kernelExtents - 1, 0, gridSizeX);
 				int addIndex = Mathf.Clamp(y + kernelExtents, 0, gridSizeY-1);
 				weightVerPass[x, y] = weightVerPass[x, y-1] - weightHozPass[x, removeIndex] + weightHozPass[x, addIndex];
-			    blurredWeight = Mathf.RoundToInt((float) weightVerPass[x, y] / (kernelSize * kernelSize));
+				blurredWeight = Mathf.RoundToInt((float) weightVerPass[x, y] / (kernelSize * kernelSize));
 				grid[x, y].weight = blurredWeight;
 			}
 		}

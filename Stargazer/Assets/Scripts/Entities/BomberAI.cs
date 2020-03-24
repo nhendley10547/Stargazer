@@ -80,7 +80,6 @@ public class BomberAI : Entity {
 	}
 
 	void Explode() {
-		
 		GameObject explode = Instantiate(explosion, transform.position, transform.rotation) as GameObject;
 		ParticleSystem parts = explode.GetComponent<ParticleSystem>();
 		float totalDuration = parts.main.duration + parts.main.startLifetime.constant;
@@ -101,12 +100,11 @@ public class BomberAI : Entity {
 				health.ChangeHealthBy(damage);
 			}
 		}
-
-		Destroy(this.gameObject);
 	}
 
 	public override void Death() {
 		Explode();
+		Destroy(this.gameObject);
 	}
 
 	void AIBehavior() {
