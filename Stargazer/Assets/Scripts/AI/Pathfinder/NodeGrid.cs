@@ -35,9 +35,22 @@ public class NodeGrid : MonoBehaviour {
 				Vector3 worldPoint = worldBottomLeft + 
 					Vector3.right * (x * this.nodeDiameter + this.nodeRadius) + 
 					Vector3.forward * (y * this.nodeDiameter + this.nodeRadius);
-				bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unwalkableMask));
+				Collider[] collide = Physics.OverlapSphere(worldPoint, nodeRadius, unwalkableMask);
+				bool walkable = true;
+				if (collide.Length > 0) {
+					walkable = false;
+				} 
 
 				this.grid[x, y] = new Node(walkable, worldPoint, x, y, walkable ? 0 : 15);
+
+				if (!walkable) {
+					foreach(Collider c in collide) {
+						FakeWall wall = c.GetComponent<FakeWall>();
+						if (wall != null) {
+							wall.AddPathFindNode(this.grid[x, y]);
+						}
+					}
+				}
 			}
 		}
 
