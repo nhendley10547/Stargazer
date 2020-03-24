@@ -30,7 +30,9 @@ public class Shotgun : Equipment {
                     position[i] = this.transform.GetChild(0).position + bulletDirection * (.1f * i);
                     bulletClone[i] = Instantiate(bulletPrefab, position[i], this.transform.rotation) as GameObject;
                     bulletClone[i].transform.localScale = new Vector3(.05f, .05f, .05f);
-                    bulletClone[i].GetComponent<Bullet>().Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
+                    Bullet bullet = bulletClone[i].GetComponent<Bullet>();
+                    bullet.Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
+                    bullet.damageValue = 1;
                 }
 
                 if (shotsFired == 0) {
@@ -42,7 +44,9 @@ public class Shotgun : Equipment {
                     shotsFired = 0;
                 }
 
-                this.currentAmmoCount--;
+                if (ownerEntity.transform.tag != "Entity") {
+                    this.currentAmmoCount--;
+                }
             }
         }
     }
