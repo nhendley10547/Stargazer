@@ -19,6 +19,7 @@ public class BotAI : Entity {
 	public int shootingRange = 80;
 
 	private MovementAI movementAI;
+	private EquipAction equipAction;
 
 	void Start () {
 		centerTransform = transform.GetChild(0);
@@ -31,7 +32,9 @@ public class BotAI : Entity {
 
 		movementAI = GetComponent<MovementAI>();
 		Equipment weapon = Instantiate(weaponPrefab, Vector3.zero, Quaternion.Euler(0,0,0)).GetComponent<Equipment>();
-		GetComponent<EquipAction>().OnEquip(weapon, this.centerTransform);
+
+		equipAction = GetComponent<EquipAction>();
+		equipAction.OnEquip(weapon, this.centerTransform);
 	}
 
 	void CheckStatus() {
@@ -126,11 +129,17 @@ public class BotAI : Entity {
 	}
 
 	public override void Death() {
-		GameObject explode = Instantiate(deathExplosion, transform.position, transform.rotation) as GameObject;
-		explode.transform.localScale = Vector3.one * 2;
-		ParticleSystem parts = explode.GetComponent<ParticleSystem>();
-		float totalDuration = parts.main.duration + parts.main.startLifetime.constant;
-		Destroy(explode, totalDuration);
+		if (deathExplosion != null){
+			GameObject explode = Instantiate(deathExplosion, transform.position, transform.rotation) as GameObject;
+			explode.transform.localScale = Vector3.one * 2;
+			ParticleSystem parts = explode.GetComponent<ParticleSystem>();
+			float totalDuration = parts.main.duration + parts.main.startLifetime.constant;
+			Destroy(explode, totalDuration);
+		}
+
+		if (equipment != null) {
+			this.equipAction.OnDrop(equipment);
+		}
 
 		Destroy(this.gameObject);
 	}

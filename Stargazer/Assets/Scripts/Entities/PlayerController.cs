@@ -30,7 +30,7 @@ public class PlayerController : Entity {
             Equipment weapon = Instantiate(weaponPrefab, Vector3.zero, Quaternion.Euler(0, 0, 0)).GetComponent<Equipment>();
             equipAction.OnEquip(weapon, playerView.transform);
         }
-       // Cursor.lockState = CursorLockMode.Locked;
+        Cursor.lockState = CursorLockMode.Locked;
 	}
 
 	void Update() {
