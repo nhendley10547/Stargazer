@@ -11,3 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 66e71347df95bf545879a559c8366b92
+  - enabled: 1
+    path: Assets/Scenes/AlexDLevel.unity
+    guid: 6fdf5bfda51d7254789449ba96a351c3
