@@ -12,6 +12,10 @@ public class Health : MonoBehaviour {
 
 	public void ChangeHealthBy(int healthValue) {
 		this.entityHealth -= healthValue;
+	}
+
+	//The reason why I put check health here instead of change health by is to prevent "chain" death for bomber
+	void Update(){
 		if (this.entityHealth <= 0) {
 			this.gameObject.GetComponent<Entity>().Death();
 		}
