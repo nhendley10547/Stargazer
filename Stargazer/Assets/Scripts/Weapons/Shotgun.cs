@@ -8,7 +8,7 @@ public class Shotgun : Equipment {
     private float timeBetweenTwoShots = .2f;
     private float shotsFired = 0;
     private const float MAX_RELOAD_TIME = 2.5f;
-    private const float BULLET_SPEED = 12.0f;
+    private const float BULLET_SPEED = 65.0f;
     private const float BULLET_RANGE = 100.0f;
     Vector3[] position = new Vector3[10];
     GameObject[] bulletClone = new GameObject[10];
@@ -32,7 +32,7 @@ public class Shotgun : Equipment {
                     bulletClone[i].transform.localScale = new Vector3(.05f, .05f, .05f);
                     Bullet bullet = bulletClone[i].GetComponent<Bullet>();
                     bullet.Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
-                    bullet.damageValue = 1;
+                    bullet.damageValue = 5;
                 }
 
                 if (shotsFired == 0) {

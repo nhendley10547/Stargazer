@@ -6,7 +6,7 @@ public class Rifle : Equipment {
     public GameObject bulletPrefab;
     private float currentReloadTime = 0;
     private const float MAX_RELOAD_TIME = .1f;
-    private const float BULLET_SPEED = 20.0f;
+    private const float BULLET_SPEED = 60.0f;
     private const float BULLET_RANGE = 100.0f;
 
     void Start() {
@@ -26,7 +26,7 @@ public class Rifle : Equipment {
                 bulletClone.transform.localScale = new Vector3(0.05f, .05f, .05f);
                 Bullet bullet = bulletClone.GetComponent<Bullet>();
                 bullet.Init(bulletDirection, BULLET_SPEED, BULLET_RANGE);
-                bullet.damageValue = 5;
+                bullet.damageValue = 8;
 
                 this.currentReloadTime = MAX_RELOAD_TIME;
                 if (ownerEntity.transform.tag != "Entity") {                  

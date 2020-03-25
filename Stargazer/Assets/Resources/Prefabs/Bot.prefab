@@ -404,7 +404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b4ad36154d55b34b981010e639e170a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entityHealth: 40
+  entityHealth: 15
 --- !u!114 &114905396706128886
 MonoBehaviour:
   m_ObjectHideFlags: 1

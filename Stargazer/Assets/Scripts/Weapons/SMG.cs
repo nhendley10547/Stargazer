@@ -5,8 +5,8 @@ public class SMG : Equipment {
 
     public GameObject bulletPrefab;
     private float currentReloadTime = 0;
-    private const float MAX_RELOAD_TIME = .025f;
-    private const float BULLET_SPEED = 20.0f;
+    private const float MAX_RELOAD_TIME = .035f;
+    private const float BULLET_SPEED = 55.0f;
     private const float BULLET_RANGE = 100.0f;
 
     void Start() {

@@ -14,12 +14,15 @@ public class PlayerController : Entity {
 	private Inventory inventory;
 	public GameObject weaponPrefab;
 
+
+
 	void Start() {
 		playerView.enabled = true;
 		playerView.transform.position = transform.position + Vector3.up * .5f;
 		playerView.transform.eulerAngles = this.direction = transform.eulerAngles;
-
-		playerBody = GetComponent<Rigidbody>();
+        playerView.fieldOfView = 95f;
+       
+        playerBody = GetComponent<Rigidbody>();
 		playerCollider = GetComponent<Collider>();
         equipAction = GetComponent<EquipAction>();
 		inventory = GetComponent<Inventory>();
